@@ -96,39 +96,19 @@ export default function InstructionsScreen() {
         </header>
 
         <ol className="instructions-screen__steps">
-          <div className="instructions-screen__row instructions-screen__row--top">
-            {steps.slice(0, 3).map((step, index) => (
-              <InstructionStep
-                key={step.title}
-                ref={(node) => {
-                  stepRefs[index].current = node;
-                }}
-                index={index}
-                icon={step.icon}
-                title={step.title}
-                description={step.description}
-              />
-            ))}
-          </div>
-
-          <div className="instructions-screen__row instructions-screen__row--bottom">
-            {steps.slice(3).map((step, offset) => {
-              const index = offset + 3;
-              return (
-                <InstructionStep
-                  key={step.title}
-                  ref={(node) => {
-                    stepRefs[index].current = node;
-                  }}
-                  index={index}
-                  icon={step.icon}
-                  title={step.title}
-                  description={step.description}
-                  className={index === 4 ? "instruction-step--wide" : ""}
-                />
-              );
-            })}
-          </div>
+          {steps.map((step, index) => (
+            <InstructionStep
+              key={step.title}
+              ref={(node) => {
+                stepRefs[index].current = node;
+              }}
+              index={index}
+              icon={step.icon}
+              title={step.title}
+              description={step.description}
+              className={index === 4 ? "instruction-step--wide" : ""}
+            />
+          ))}
         </ol>
 
         <footer className="instructions-screen__footer">

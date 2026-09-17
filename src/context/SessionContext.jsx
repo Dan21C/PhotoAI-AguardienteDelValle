@@ -1,5 +1,14 @@
-import { createContext, useCallback, useContext, useMemo, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from "react";
 import { SCREENS } from "../config/appConfig";
+
+// originalPhoto.url es un Object URL (URL.createObjectURL). Revocarlo es un
+// side effect, así que NO vive en el reducer (que debe ser puro): lo maneja
+// el efecto de SessionProvider de abajo, que observa cada cambio de
+// originalPhoto y revoca la url ANTERIOR cuando deja de estar en uso
+// (retake, reemplazo por una nueva captura, o reset). Ver docs/ARCHITECTURE.md.
+function revokePhotoUrl(photo) {
+  if (photo?.url) URL.revokeObjectURL(photo.url);
+}
 
 const initialState = {
   currentScreen: SCREENS.HOME,
@@ -104,6 +113,21 @@ const SessionContext = createContext(null);
 
 export function SessionProvider({ children }) {
   const [state, dispatch] = useReducer(sessionReducer, initialState);
+
+  const previousOriginalPhotoRef = useRef(null);
+
+  useEffect(() => {
+    const previousPhoto = previousOriginalPhotoRef.current;
+    if (previousPhoto && previousPhoto.url !== state.originalPhoto?.url) {
+      revokePhotoUrl(previousPhoto);
+    }
+    previousOriginalPhotoRef.current = state.originalPhoto;
+  }, [state.originalPhoto]);
+
+  useEffect(
+    () => () => revokePhotoUrl(previousOriginalPhotoRef.current),
+    [],
+  );
 
   const startExperience = useCallback(
     () => dispatch({ type: ACTIONS.START_EXPERIENCE }),

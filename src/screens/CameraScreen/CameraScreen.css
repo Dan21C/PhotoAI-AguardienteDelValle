@@ -1,0 +1,146 @@
+.camera-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 44px 0 40px;
+}
+
+.camera-screen__background {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(91, 141, 255, 0.28) 0%, transparent 50%),
+    linear-gradient(160deg, var(--color-fiesta-blue-700) 0%, var(--color-fiesta-blue-900) 65%, #020617 100%);
+}
+
+.camera-screen__header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.camera-screen__subtitle {
+  margin: 0;
+  font-family: var(--font-brand);
+  font-size: 26px;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+}
+
+.camera-screen__stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.camera-screen__preview-frame {
+  position: relative;
+  width: 70%;
+  height: 78%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(5, 11, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 70px rgba(2, 6, 23, 0.5);
+}
+
+.camera-screen__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-screen__video--mirrored {
+  transform: scaleX(-1);
+}
+
+.camera-screen__guide {
+  position: absolute;
+  inset: 8% 32%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 999px 999px 40px 40px;
+  pointer-events: none;
+}
+
+.camera-screen__status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-brand);
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: var(--color-text-muted);
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.camera-screen__countdown {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-brand);
+  font-size: 220px;
+  color: var(--color-white);
+  text-shadow: 0 0 60px var(--color-fiesta-glow);
+  pointer-events: none;
+}
+
+.camera-screen__flash {
+  position: absolute;
+  inset: 0;
+  background: var(--color-white);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.camera-screen__error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 48px;
+}
+
+.camera-screen__error-title {
+  margin: 0;
+  font-family: var(--font-brand);
+  font-size: 30px;
+  letter-spacing: 1px;
+  color: var(--color-white);
+}
+
+.camera-screen__error-hint {
+  margin: 0;
+  font-size: 18px;
+  color: var(--color-text-muted);
+}
+
+.camera-screen__controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 28px;
+}

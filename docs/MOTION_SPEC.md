@@ -150,9 +150,13 @@ más ancho en la fila inferior y que el texto largo no rompa la jerarquía.
 
 ### Layout de los 5 pasos
 
-3 arriba (`instructions-screen__row--top`) + 2 abajo
-(`instructions-screen__row--bottom`), como pidió el brief: el paso 5
-necesita más espacio y así lo obtiene sin angostar los otros cuatro.
+3 arriba + 2 abajo, como pidió el brief. Implementado con CSS Grid
+(`grid-template-columns: repeat(3, 1fr)`) directamente sobre el `<ol>` — los
+5 `<li>` (`InstructionStep`) se colocan automáticamente 3+2, y el paso 5
+usa `grid-column: span 2` para ocupar más ancho sin angostar los otros
+cuatro. (Fase 4: se quitaron los `<div>` de fila que envolvían el `<ol>`
+por un detalle semántico — ver "Housekeeping Fase 4" más abajo — y la
+grilla reemplazó esa maquetación sin cambiar el resultado visual.)
 
 ### Cleanup
 
@@ -183,6 +187,74 @@ centrar por layout puro, y `transform: scale()` solo para escalar
 alrededor de ese punto ya centrado. Verificado estable en 5 cargas
 consecutivas a 1366×768 tras el cambio. Afecta a todas las pantallas por
 igual (Home incluida); se re-verificó Home sin regresiones.
+
+## Housekeeping Fase 4 — semántica de `InstructionsScreen`
+
+El `<ol>` de los pasos tenía dos `<div>` de fila como hijos directos (HTML
+inválido: un `<ol>` solo debe tener `<li>` como hijo directo). Se quitaron
+esos `<div>` y los 5 `InstructionStep` (cada uno ya renderiza un `<li>`) se
+volvieron hijos directos del `<ol>`, maquetados 3+2 vía CSS Grid (ver
+sección de Instructions arriba). Sin cambios visuales.
+
+## Fase 4 — Camera + Photo Review (implementado)
+
+### Camera — timeline de entrada (`createCameraIntroTimeline`)
+
+Corta a propósito (300-500ms): la persona debe poder tomarse la foto
+rápido, no hay intro larga como en Home/Instructions.
+
+1. Fondo — `opacity 0→1`, 0.4s.
+2. Branding (logo + "Mira a cámara") — `y -12→0`, 0.35s.
+3. Marco del preview — `scale .97→1`, 0.4s.
+4. Controles (botón shutter) — `y 16→0`, 0.35s.
+
+Sin motion ambiental: "la cámara en vivo ya aporta movimiento" (pedido
+explícito del brief) — nada de foliage ni micro-shakes en esta pantalla.
+
+### Countdown (`animateCountdownDigit`)
+
+Al tocar el shutter: countdown 3→2→1 con `setTimeout` recursivo (un solo
+timer vivo a la vez, guardado en un ref y limpiado al desmontar — nunca
+`setInterval`). Cada dígito: `scale .7→1`, `opacity 0→1`, 0.22s,
+`back.out(1.6)`, luego fade-out (`opacity→0`, 0.18s) 0.35s después. Con
+`prefers-reduced-motion`: solo fade in/out sin scale.
+
+### Flash + captura (`playCaptureFlash`)
+
+Al llegar a 0: overlay blanco (`opacity 0→0.85→0`, ~250ms total:
+0.1s in + 0.15s out). `playCaptureFlash()` devuelve una Promise que
+resuelve al terminar; `CameraScreen` hace
+`Promise.all([playCaptureFlash(flashRef), captureFrame()])` — espera tanto
+el flash como el frame capturado (lo que tarde más) antes de navegar a
+Photo Review, evitando la condición de carrera de intentar navegar con la
+foto todavía sin resolver. El flash se mantiene igual con reduced motion
+(es feedback funcional de que la foto se tomó, no decorativo). Vibración
+háptica (~50ms) tras la captura si `navigator.vibrate` existe
+(feature-detected, en un `try/catch`, nunca bloqueante).
+
+### Photo Review — timeline de entrada (`createPhotoReviewIntroTimeline`)
+
+Corta, sin ambient motion (la composición debe quedarse estable para que
+la persona decida):
+
+1. Foto — `scale .96→1`, `opacity 0→1`, 0.45s.
+2. Copy (eyebrow + título + subtítulo) — `x 20→0`, 0.4s, solapado.
+3. Botones (Repetir / Continuar) — `y 16→0`, stagger 0.1s.
+
+### `prefers-reduced-motion`
+
+Mismo patrón que Home/Instructions vía `useReducedMotion()` en ambas
+pantallas: fade-in corto sin desplazamientos/scale; el flash de captura es
+la única excepción intencional (ver arriba).
+
+### Cleanup específico de Camera
+
+Además del cleanup estándar de GSAP: el `setTimeout` del countdown se
+limpia en un `useEffect` de desmontaje dedicado, y `useCamera` detiene el
+`MediaStream` en su propio cleanup (ver `docs/ARCHITECTURE.md`). Verificado
+con Playwright (cámara falsa de Chromium): tras varios ciclos
+Camera→captura→Retake→Camera, el conteo de `getUserMedia()` y
+`track.stop()` queda balanceado (0 tracks activos al finalizar).
 
 ## Fases siguientes
 

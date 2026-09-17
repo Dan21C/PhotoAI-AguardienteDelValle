@@ -35,3 +35,23 @@ export const THANK_YOU_TIMEOUT = 15000;
 
 // Tiempo de inactividad general antes de forzar un reset de sesión abandonada (ms).
 export const IDLE_RESET_TIMEOUT = 90000;
+
+// Configuración de captura de cámara (ver src/hooks/useCamera.js y
+// src/screens/CameraScreen/). `mirrorPreview` solo afecta el <video> en
+// pantalla (CSS); `mirrorCapture` documenta que la foto capturada NUNCA
+// se espeja (drawImage sobre el video ignora el transform CSS del
+// elemento, así que la captura ya sale sin espejar de forma natural).
+export const CAMERA_CONFIG = {
+  countdownSeconds: 3,
+  jpegQuality: 0.92,
+  mirrorPreview: true,
+  mirrorCapture: false,
+  constraints: {
+    video: {
+      facingMode: "user",
+      width: { ideal: STAGE.WIDTH },
+      height: { ideal: STAGE.HEIGHT },
+    },
+    audio: false,
+  },
+};

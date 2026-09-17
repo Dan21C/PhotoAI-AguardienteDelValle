@@ -51,6 +51,24 @@ RESET → HOME
 - `finishExperience()` — QR → THANK_YOU
 - `resetSession()` — THANK_YOU → HOME (reset completo del estado)
 
+## Shape de `originalPhoto`
+
+Capturada en `CameraScreen` vía `useCamera().captureFrame()`:
+
+```js
+originalPhoto = {
+  blob,        // Blob JPEG (canvas.toBlob, calidad CAMERA_CONFIG.jpegQuality)
+  url,         // URL.createObjectURL(blob) — usado por <img>/<video> para preview
+  width,       // resolución real capturada (video.videoWidth, sin crop)
+  height,      // resolución real capturada (video.videoHeight, sin crop)
+  mimeType,    // "image/jpeg"
+  capturedAt,  // Date.now()
+}
+```
+
+Es la foto **limpia**, sin marco de marca ni espejado (ver
+`docs/ARCHITECTURE.md` para el ciclo de vida del Object URL).
+
 ## Reset automático
 
 Después de `THANK_YOU_TIMEOUT` (ver `src/config/appConfig.js`) sin interacción en

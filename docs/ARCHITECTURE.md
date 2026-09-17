@@ -40,16 +40,17 @@ src/
                      QRCard, PhotoFrame, LoadingExperience se agregan en sus
                      fases correspondientes
   screens/          Una carpeta por pantalla. Implementadas: HomeScreen (Fase 2),
-                     InstructionsScreen (Fase 3). El resto (Camera, PhotoReview,
-                     Location, Processing, Result, QR, ThankYou) se agrega en
-                     su fase correspondiente
+                     InstructionsScreen (Fase 3), CameraScreen, PhotoReviewScreen
+                     (Fase 4). El resto (Location, Processing, Result, QR,
+                     ThankYou) se agrega en su fase correspondiente
   animations/       Timelines GSAP por pantalla: homeAnimations.js (Fase 2),
-                     instructionsAnimations.js (Fase 3)
+                     instructionsAnimations.js (Fase 3), cameraAnimations.js,
+                     photoReviewAnimations.js (Fase 4)
   config/           appConfig.js, copy.js, assets.js, locations.js
   context/          SessionContext.jsx (estado global de la experiencia)
   hooks/            useReducedMotion (Fase 3, compartido por Home e
-                     Instructions); useCamera, useIdleReset,
-                     useScreenTransition se agregan en sus fases (4, 7, 8)
+                     Instructions); useCamera (Fase 4); useIdleReset,
+                     useScreenTransition se agregan en sus fases (7, 8)
   services/
     imageGeneration/  Interfaz de generación de foto (mock en esta etapa)
     storage/          Interfaz de subida/descarga de foto (mock en esta etapa)
@@ -79,10 +80,52 @@ session = {
 }
 ```
 
-Acciones expuestas por `useSession()`: `startExperience`, `capturePhoto`,
-`retakePhoto`, `confirmPhoto`, `selectLocation`, `startGeneration`,
-`setGeneratedPhoto`, `confirmResult`, `setQR`, `finishExperience`,
-`resetSession`. Ver `docs/FLOW.md` para el detalle de transiciones.
+Acciones expuestas por `useSession()`: `startExperience`, `completeInstructions`,
+`setCameraReady`, `capturePhoto`, `retakePhoto`, `confirmPhoto`, `selectLocation`,
+`startGeneration`, `setGeneratedPhoto`, `confirmResult`, `setQR`,
+`finishExperience`, `resetSession`. Ver `docs/FLOW.md` para el detalle de
+transiciones y el shape de `originalPhoto`.
+
+## Cámara: `useCamera`, Blob y Object URL (Fase 4)
+
+**Separación de responsabilidades** (deliberada, ver brief de Fase 4):
+
+- `src/hooks/useCamera.js` — solo hardware/browser media. No importa
+  `SessionContext` ni `COPY`. Expone `videoRef`, `videoReady`, `loading`,
+  `errorCode` (código normalizado: `permission-denied`, `not-found`,
+  `not-readable`, `overconstrained`, `unknown` — nunca el nombre técnico del
+  `DOMException`), `startCamera()`, `stopCamera()`, `captureFrame()`.
+- `SessionContext` — solo estado de la experiencia (no sabe de
+  `MediaStream`).
+- `CameraScreen` — conecta ambos: llama `startCamera()` al montar, refleja
+  `videoReady` en `session.cameraReady` (`setCameraReady`), y al capturar
+  llama `session.capturePhoto(photo)`.
+
+**Captura:** `captureFrame()` valida `video.videoWidth/Height > 0` (nunca
+usa solo la resolución de `getUserMedia()` como señal de "listo"), dibuja el
+frame en un `<canvas>` del tamaño real del video (sin crop) y usa
+`canvas.toBlob(..., "image/jpeg", CAMERA_CONFIG.jpegQuality)` — no
+`toDataURL()`, para no mantener strings base64 grandes en memoria.
+
+**Mirror:** el espejado (`CAMERA_MIRROR_PREVIEW`) es puramente CSS
+(`transform: scaleX(-1)`) sobre el `<video>` de preview. `drawImage()` lee
+los frames decodificados del video, no el DOM/CSS, así que la captura sale
+sin espejar de forma natural — no hace falta voltear el canvas.
+
+**Ciclo de vida del Object URL de `originalPhoto`:** el reducer de
+`SessionContext` es puro (no revoca URLs). La revocación es un side effect
+y vive en un `useEffect` de `SessionProvider` que observa
+`state.originalPhoto`: cuando cambia (retake, nueva captura que reemplaza
+una anterior, o `resetSession`), revoca la URL previa vía el helper interno
+`revokePhotoUrl(photo)` — cubre todos los casos con un solo mecanismo, en
+vez de revocar manualmente en cada action creator (`capturePhoto`,
+`retakePhoto`, etc.), reduciendo el riesgo de olvidar un caso.
+
+**Detener la cámara:** `useCamera` detiene todas las `MediaStreamTrack`s
+(`track.stop()`) en su propio cleanup de `useEffect` al desmontar
+`CameraScreen` — ocurre siempre que se navega fuera de Camera (captura
+exitosa, error, o cualquier cambio de pantalla), así que el LED de la
+cámara nunca queda encendido en Photo Review ni en ninguna otra pantalla.
 
 ## Centralización de assets
 

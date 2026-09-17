@@ -1,12 +1,14 @@
 import TabletStage from "./components/TabletStage/TabletStage";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import InstructionsScreen from "./screens/InstructionsScreen/InstructionsScreen";
+import CameraScreen from "./screens/CameraScreen/CameraScreen";
+import PhotoReviewScreen from "./screens/PhotoReviewScreen/PhotoReviewScreen";
 import { SessionProvider, useSession } from "./context/SessionContext";
 import { SCREENS } from "./config/appConfig";
 import "./App.css";
 
-// Placeholder temporal: las pantallas posteriores a Home (Instructions,
-// Camera, etc.) se implementan en sus fases correspondientes.
+// Placeholder temporal: las pantallas posteriores a Photo Review (Location,
+// Processing, etc.) se implementan en sus fases correspondientes.
 function TemporaryScreen({ screen }) {
   return (
     <div className="stage-placeholder">
@@ -26,6 +28,14 @@ function ExperienceRouter() {
 
   if (currentScreen === SCREENS.INSTRUCTIONS) {
     return <InstructionsScreen />;
+  }
+
+  if (currentScreen === SCREENS.CAMERA) {
+    return <CameraScreen />;
+  }
+
+  if (currentScreen === SCREENS.PHOTO_REVIEW) {
+    return <PhotoReviewScreen />;
   }
 
   return <TemporaryScreen screen={currentScreen} />;

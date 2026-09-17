@@ -101,27 +101,26 @@
   text-shadow: 0 0 30px var(--color-fiesta-glow);
 }
 
+/* <ol> con los 5 <li> (InstructionStep) directos: la grilla de 3
+   columnas ubica automáticamente 3 pasos arriba + 2 abajo (el paso 5
+   ocupa 2 columnas vía .instruction-step--wide), sin necesitar <div>
+   de fila envolviendo la lista. */
 .instructions-screen__steps {
   flex: 1;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
   gap: 24px;
 }
 
-.instructions-screen__row {
-  display: flex;
-  gap: 24px;
-}
-
-.instructions-screen__row--top .instruction-step {
+.instruction-step:nth-child(-n + 3) {
   min-height: 220px;
 }
 
-.instructions-screen__row--bottom .instruction-step {
+.instruction-step:nth-child(n + 4) {
   min-height: 200px;
 }
 

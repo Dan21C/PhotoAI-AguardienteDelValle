@@ -1,0 +1,32 @@
+/*
+ * Tokens de marca — Aguardiente Blanco del Valle, referencia Fiesta.
+ * Paleta AZUL de Fiesta. Valores exactos pendientes del manual de marca
+ * definitivo (ver docs/ASSETS_TODO.md). Se documentan como placeholders
+ * identificables y fáciles de reemplazar.
+ */
+:root {
+  /* Azules Fiesta (placeholder hasta recibir manual de marca oficial) */
+  --color-fiesta-blue-900: #050b2e;
+  --color-fiesta-blue-800: #0a1550;
+  --color-fiesta-blue-700: #122a7a;
+  --color-fiesta-blue-500: #1e4fd6;
+  --color-fiesta-blue-300: #5b8dff;
+  --color-fiesta-glow: rgba(91, 141, 255, 0.55);
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-bg: var(--color-fiesta-blue-900);
+  --color-stage-bg: #000000;
+  --color-text: var(--color-white);
+  --color-text-muted: rgba(255, 255, 255, 0.72);
+  --color-accent: var(--color-fiesta-blue-300);
+
+  /* Fuente oficial de marca: Sink (pendiente de agregar como asset oficial). */
+  --font-brand: "Sink", Impact, sans-serif;
+  --font-body: "Segoe UI", system-ui, sans-serif;
+
+  /* Escenario base de la aplicación: SIEMPRE horizontal 16:9. */
+  --stage-width: 1920px;
+  --stage-height: 1080px;
+}

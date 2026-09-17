@@ -10,8 +10,8 @@ export const COPY = {
   handle: "@aguardientedelvalle",
 
   home: {
-    title: "EL SABOR\nque nos une\n¡VA CON TODO!",
-    description: "Vive la experiencia PhotoAI y llévate tu foto en Cali.",
+    headline: "VIVE CALI EN UNA FOTO ÚNICA",
+    description: ["Nuestra cultura.", "Nuestros sabores.", "Nuestras historias."],
     cta: "INICIAR",
   },
 

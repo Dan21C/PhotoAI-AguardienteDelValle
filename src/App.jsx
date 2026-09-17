@@ -1,32 +1,36 @@
 import TabletStage from "./components/TabletStage/TabletStage";
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { SessionProvider, useSession } from "./context/SessionContext";
-import { COPY } from "./config/copy";
+import { SCREENS } from "./config/appConfig";
 import "./App.css";
 
-// Placeholder temporal de Fase 1: confirma que TabletStage y SessionContext
-// funcionan correctamente. Las pantallas reales (Home, Instructions, etc.)
-// se implementan en las siguientes fases.
-function StagePlaceholder() {
-  const { currentScreen } = useSession();
-
+// Placeholder temporal: las pantallas posteriores a Home (Instructions,
+// Camera, etc.) se implementan en sus fases correspondientes.
+function TemporaryScreen({ screen }) {
   return (
     <div className="stage-placeholder">
-      <p className="stage-placeholder__eyebrow">PhotoAI — Aguardiente Blanco del Valle Fiesta</p>
-      <h1 className="stage-placeholder__title">{COPY.campaign.line1}</h1>
-      <h2 className="stage-placeholder__title">{COPY.campaign.line2}</h2>
-      <h2 className="stage-placeholder__title">{COPY.campaign.line3}</h2>
       <p className="stage-placeholder__screen">
-        Pantalla actual: <strong>{currentScreen}</strong>
+        Pantalla actual: <strong>{screen}</strong>
       </p>
     </div>
   );
+}
+
+function ExperienceRouter() {
+  const { currentScreen } = useSession();
+
+  if (currentScreen === SCREENS.HOME) {
+    return <HomeScreen />;
+  }
+
+  return <TemporaryScreen screen={currentScreen} />;
 }
 
 function App() {
   return (
     <SessionProvider>
       <TabletStage>
-        <StagePlaceholder />
+        <ExperienceRouter />
       </TabletStage>
     </SessionProvider>
   );

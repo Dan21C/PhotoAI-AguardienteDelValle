@@ -14,24 +14,7 @@
   );
 }
 
-.stage-placeholder__eyebrow {
-  margin: 0;
-  font-size: 22px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.stage-placeholder__title {
-  margin: 0;
-  font-family: var(--font-brand);
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: 1px;
-}
-
 .stage-placeholder__screen {
-  margin-top: 24px;
   font-size: 20px;
   color: var(--color-text-muted);
 }

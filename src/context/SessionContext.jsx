@@ -15,6 +15,7 @@ const initialState = {
 
 const ACTIONS = {
   START_EXPERIENCE: "START_EXPERIENCE",
+  COMPLETE_INSTRUCTIONS: "COMPLETE_INSTRUCTIONS",
   CAPTURE_PHOTO: "CAPTURE_PHOTO",
   RETAKE_PHOTO: "RETAKE_PHOTO",
   CONFIRM_PHOTO: "CONFIRM_PHOTO",
@@ -32,6 +33,9 @@ function sessionReducer(state, action) {
   switch (action.type) {
     case ACTIONS.START_EXPERIENCE:
       return { ...state, currentScreen: SCREENS.INSTRUCTIONS };
+
+    case ACTIONS.COMPLETE_INSTRUCTIONS:
+      return { ...state, currentScreen: SCREENS.CAMERA };
 
     case ACTIONS.SET_CAMERA_READY:
       return { ...state, cameraReady: action.payload };
@@ -106,6 +110,11 @@ export function SessionProvider({ children }) {
     [],
   );
 
+  const completeInstructions = useCallback(
+    () => dispatch({ type: ACTIONS.COMPLETE_INSTRUCTIONS }),
+    [],
+  );
+
   const setCameraReady = useCallback(
     (ready) => dispatch({ type: ACTIONS.SET_CAMERA_READY, payload: ready }),
     [],
@@ -166,6 +175,7 @@ export function SessionProvider({ children }) {
     () => ({
       ...state,
       startExperience,
+      completeInstructions,
       setCameraReady,
       capturePhoto,
       retakePhoto,
@@ -181,6 +191,7 @@ export function SessionProvider({ children }) {
     [
       state,
       startExperience,
+      completeInstructions,
       setCameraReady,
       capturePhoto,
       retakePhoto,

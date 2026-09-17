@@ -1,5 +1,6 @@
 import TabletStage from "./components/TabletStage/TabletStage";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import InstructionsScreen from "./screens/InstructionsScreen/InstructionsScreen";
 import { SessionProvider, useSession } from "./context/SessionContext";
 import { SCREENS } from "./config/appConfig";
 import "./App.css";
@@ -21,6 +22,10 @@ function ExperienceRouter() {
 
   if (currentScreen === SCREENS.HOME) {
     return <HomeScreen />;
+  }
+
+  if (currentScreen === SCREENS.INSTRUCTIONS) {
+    return <InstructionsScreen />;
   }
 
   return <TemporaryScreen screen={currentScreen} />;

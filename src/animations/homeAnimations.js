@@ -31,25 +31,36 @@ export const HOME_MOTION = {
 // Construye la timeline de entrada de Home. Los elementos comienzan fuera
 // del viewport / invisibles y se van construyendo en el orden pedido:
 // fondo → decoración → foliage → botella → branding → headline → descripción → botón.
-export function createHomeIntroTimeline(refs) {
+//
+// Con prefers-reduced-motion, se omiten los desplazamientos/overshoots y
+// solo se hace un fade-in corto y simultáneo (sin perder funcionalidad).
+export function createHomeIntroTimeline(refs, { reducedMotion = false } = {}) {
   const { intro } = HOME_MOTION;
 
   const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-  tl.set(
-    [
-      refs.decoration.current,
-      refs.foliageLeft.current,
-      refs.foliageRight.current,
-      refs.bottle.current,
-      refs.logo.current,
-      refs.campaign.current,
-      refs.headline.current,
-      refs.description.current,
-      refs.button.current,
-    ],
-    { autoAlpha: 0 },
-  );
+  const elements = [
+    refs.decoration.current,
+    refs.foliageLeft.current,
+    refs.foliageRight.current,
+    refs.bottle.current,
+    refs.logo.current,
+    refs.campaign.current,
+    refs.headline.current,
+    refs.description.current,
+    refs.button.current,
+  ];
+
+  if (reducedMotion) {
+    tl.fromTo(
+      [refs.background.current, ...elements],
+      { autoAlpha: 0 },
+      { autoAlpha: 1, duration: 0.25, stagger: 0.02, ease: "power1.out" },
+    );
+    return tl;
+  }
+
+  tl.set(elements, { autoAlpha: 0 });
 
   tl.fromTo(
     refs.background.current,
@@ -145,7 +156,10 @@ export function createHomeIntroTimeline(refs) {
 
 // Loops ambientales: cada capa respira a una velocidad distinta para dar
 // sensación de profundidad. Devuelve una función de limpieza.
-export function startAmbientMotion(refs) {
+// Con prefers-reduced-motion no se crean loops (no-op).
+export function startAmbientMotion(refs, { reducedMotion = false } = {}) {
+  if (reducedMotion) return () => {};
+
   const { ambient } = HOME_MOTION;
   const tweens = [];
 
@@ -221,7 +235,10 @@ export function startAmbientMotion(refs) {
 // Golpe de energía ocasional (no constante): cada 8-14s, un micro-shake muy
 // sutil en varias capas para que la escena se sienta viva sin parecer un
 // error de interfaz. Devuelve una función de limpieza.
-export function startEnergyPulses(refs) {
+// Con prefers-reduced-motion no se programan pulsos (no-op).
+export function startEnergyPulses(refs, { reducedMotion = false } = {}) {
+  if (reducedMotion) return () => {};
+
   const { minDelay, maxDelay, duration } = HOME_MOTION.energyPulse;
   let timeoutId = null;
   let activeTimeline = null;

@@ -35,11 +35,18 @@ export default function TabletStage({ children }) {
 
   return (
     <div className="tablet-stage-wrapper" ref={wrapperRef}>
+      {/* Centrado vía position:absolute + márgenes negativos fijos (no
+          flexbox): combinar `display:flex` con `transform:scale()` en el
+          hijo produjo un centrado vertical intermitente en Chromium
+          (a veces top:0, a veces top:-156px con el mismo scale, mismo
+          layout). Este patrón evita esa condición de carrera. */}
       <div
         className="tablet-stage"
         style={{
           width: `${STAGE.WIDTH}px`,
           height: `${STAGE.HEIGHT}px`,
+          marginLeft: `${-STAGE.WIDTH / 2}px`,
+          marginTop: `${-STAGE.HEIGHT / 2}px`,
           transform: `scale(${scale})`,
         }}
       >

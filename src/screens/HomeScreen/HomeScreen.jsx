@@ -5,6 +5,7 @@ import BrandBottle from "../../components/BrandBottle/BrandBottle";
 import BrandLogo from "../../components/BrandLogo/BrandLogo";
 import AnimatedButton from "../../components/AnimatedButton/AnimatedButton";
 import { useSession } from "../../context/SessionContext";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { COPY } from "../../config/copy";
 import {
   createHomeIntroTimeline,
@@ -17,6 +18,7 @@ gsap.registerPlugin(useGSAP);
 
 export default function HomeScreen() {
   const { startExperience } = useSession();
+  const reducedMotion = useReducedMotion();
 
   const containerRef = useRef(null);
   const backgroundRef = useRef(null);
@@ -45,13 +47,13 @@ export default function HomeScreen() {
         button: buttonRef,
       };
 
-      const introTl = createHomeIntroTimeline(refs);
+      const introTl = createHomeIntroTimeline(refs, { reducedMotion });
       let stopAmbientMotion = () => {};
       let stopEnergyPulses = () => {};
 
       introTl.eventCallback("onComplete", () => {
-        stopAmbientMotion = startAmbientMotion(refs);
-        stopEnergyPulses = startEnergyPulses(refs);
+        stopAmbientMotion = startAmbientMotion(refs, { reducedMotion });
+        stopEnergyPulses = startEnergyPulses(refs, { reducedMotion });
       });
 
       return () => {
@@ -60,7 +62,7 @@ export default function HomeScreen() {
         stopEnergyPulses();
       };
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [reducedMotion] },
   );
 
   return (

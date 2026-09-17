@@ -16,15 +16,20 @@ export const COPY = {
   },
 
   instructions: {
-    title: "¿Cómo funciona?",
+    title: "¿CÓMO PARTICIPAR?",
     steps: [
-      "Tómate una foto.",
-      "Elige tu escenario favorito de Cali.",
-      "Deja que la IA transforme tu foto.",
-      "Escanea el código QR y descarga tu foto.",
-      "Publícala y etiqueta a @aguardientedelvalle para participar por 10 botellas de Aguardiente del Valle con las fotos que obtengan más likes.",
+      { icon: "camera", title: "Tómate una foto." },
+      { icon: "location", title: "Elige tu escenario favorito de Cali." },
+      { icon: "spark", title: "Deja que la IA transforme tu foto." },
+      { icon: "qr", title: "Escanea el código QR y descarga tu foto." },
+      {
+        icon: "share",
+        title: "PUBLICA Y PARTICIPA",
+        description:
+          "Publícala y etiqueta a @aguardientedelvalle para participar por 10 botellas de Aguardiente del Valle con las fotos que obtengan más likes.",
+      },
     ],
-    cta: "CONTINUAR",
+    cta: "¡LISTO!",
   },
 
   camera: {

@@ -39,6 +39,7 @@ RESET → HOME
 ## Transiciones de estado (`SessionContext`)
 
 - `startExperience()` — HOME → INSTRUCTIONS
+- `completeInstructions()` — INSTRUCTIONS → CAMERA
 - `capturePhoto(photo)` — CAMERA → PHOTO_REVIEW
 - `retakePhoto()` — PHOTO_REVIEW → CAMERA
 - `confirmPhoto()` — PHOTO_REVIEW → LOCATION

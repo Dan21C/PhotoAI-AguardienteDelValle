@@ -1,16 +1,15 @@
 .tablet-stage-wrapper {
+  position: relative;
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: var(--color-stage-bg);
 }
 
 .tablet-stage {
-  position: relative;
-  flex: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform-origin: center center;
   overflow: hidden;
   background: var(--color-bg);

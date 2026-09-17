@@ -1,0 +1,75 @@
+.instruction-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  padding: 28px 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(
+    165deg,
+    rgba(30, 79, 214, 0.28) 0%,
+    rgba(10, 21, 80, 0.55) 100%
+  );
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+  list-style: none;
+}
+
+.instruction-step__number {
+  font-family: var(--font-brand);
+  font-size: 46px;
+  letter-spacing: 1px;
+  color: var(--color-fiesta-blue-300);
+  text-shadow: 0 0 24px var(--color-fiesta-glow);
+}
+
+.instruction-step__icon-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.instruction-step__icon {
+  width: 26px;
+  height: 26px;
+  color: var(--color-white);
+}
+
+.instruction-step__title {
+  margin: 0;
+  font-family: var(--font-brand);
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+  max-width: 85%;
+}
+
+.instruction-step__description {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.instruction-step__handle {
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.instruction-step--wide {
+  flex: 1.6;
+}
+
+.instruction-step--wide .instruction-step__title {
+  font-size: 30px;
+}

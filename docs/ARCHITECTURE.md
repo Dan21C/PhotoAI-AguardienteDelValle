@@ -20,6 +20,11 @@ importar la resolución real del dispositivo:
 - Se recalcula con `ResizeObserver` (con cleanup al desmontar).
 - El wrapper exterior ocupa `100vw`/`100svh` con `overflow: hidden`, evitando
   scroll y elementos fuera de pantalla.
+- Centrado vía `position: absolute; top/left: 50%` + márgenes negativos
+  fijos (mitad de `STAGE.WIDTH`/`STAGE.HEIGHT`), **no** flexbox: combinar
+  `display:flex` con `transform:scale()` en el hijo producía un centrado
+  vertical intermitente en Chromium (detectado en Fase 3 verificando
+  1366×768 con Playwright — ver `docs/MOTION_SPEC.md`).
 
 La fotografía final generada dentro de la experiencia sí puede exportarse en
 otros formatos (9:16, 1:1, 4:5) — eso es un atributo del archivo de foto, no
@@ -29,17 +34,22 @@ de la interfaz. Ver `PHOTO_OUTPUT_FORMATS` en `src/config/appConfig.js`.
 
 ```
 src/
-  components/       Componentes reutilizables (TabletStage implementado en
-                     Fase 1; AnimatedButton, BrandLogo, BrandBottle,
-                     ScreenTransition, LocationCard, QRCard, PhotoFrame,
-                     LoadingExperience se agregan en sus fases correspondientes)
-  screens/          Una carpeta por pantalla (Home, Instructions, Camera,
-                     PhotoReview, Location, Processing, Result, QR, ThankYou),
-                     se agregan en sus fases correspondientes
-  animations/        Timelines GSAP por pantalla (fases 2+)
+  components/       Componentes reutilizables: TabletStage (Fase 1);
+                     AnimatedButton, BrandLogo, BrandBottle, InstructionIcon,
+                     InstructionStep (Fase 2/3); ScreenTransition, LocationCard,
+                     QRCard, PhotoFrame, LoadingExperience se agregan en sus
+                     fases correspondientes
+  screens/          Una carpeta por pantalla. Implementadas: HomeScreen (Fase 2),
+                     InstructionsScreen (Fase 3). El resto (Camera, PhotoReview,
+                     Location, Processing, Result, QR, ThankYou) se agrega en
+                     su fase correspondiente
+  animations/       Timelines GSAP por pantalla: homeAnimations.js (Fase 2),
+                     instructionsAnimations.js (Fase 3)
   config/           appConfig.js, copy.js, assets.js, locations.js
   context/          SessionContext.jsx (estado global de la experiencia)
-  hooks/            useCamera, useIdleReset, useScreenTransition (fases 4, 7, 8)
+  hooks/            useReducedMotion (Fase 3, compartido por Home e
+                     Instructions); useCamera, useIdleReset,
+                     useScreenTransition se agregan en sus fases (4, 7, 8)
   services/
     imageGeneration/  Interfaz de generación de foto (mock en esta etapa)
     storage/          Interfaz de subida/descarga de foto (mock en esta etapa)

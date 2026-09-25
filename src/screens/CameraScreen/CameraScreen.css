@@ -12,9 +12,9 @@
 .camera-screen__background {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(91, 141, 255, 0.28) 0%, transparent 50%),
-    linear-gradient(160deg, var(--color-fiesta-blue-700) 0%, var(--color-fiesta-blue-900) 65%, #020617 100%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .camera-screen__header {
@@ -23,19 +23,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
 .camera-screen__logo {
+  width: 190px;
+}
+
+.camera-screen__badge {
+  width: 340px;
+  height: auto;
+  margin-top: 4px;
+}
+
+.camera-screen__title {
   width: 220px;
+  height: auto;
+  margin-top: 6px;
 }
 
 .camera-screen__subtitle {
-  margin: 0;
-  font-family: var(--font-brand);
-  font-size: 26px;
-  letter-spacing: 1px;
-  color: var(--color-text-muted);
+  width: 300px;
+  height: auto;
 }
 
 .camera-screen__stage {
@@ -56,8 +65,11 @@
   border-radius: 28px;
   overflow: hidden;
   background: rgba(5, 11, 46, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 30px 70px rgba(2, 6, 23, 0.5);
+  border: 2px solid rgba(120, 170, 255, 0.9);
+  box-shadow:
+    0 0 30px 4px var(--color-fiesta-glow),
+    0 30px 70px rgba(2, 6, 23, 0.5),
+    inset 0 0 30px 2px rgba(91, 141, 255, 0.35);
 }
 
 .camera-screen__video {
@@ -74,10 +86,50 @@
 
 .camera-screen__guide {
   position: absolute;
-  inset: 8% 32%;
-  border: 1.5px dashed rgba(255, 255, 255, 0.35);
-  border-radius: 999px 999px 40px 40px;
+  inset: 6% 8%;
   pointer-events: none;
+}
+
+.camera-screen__guide-corner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-color: var(--color-white);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.85;
+}
+
+.camera-screen__guide-corner--tl {
+  top: 0;
+  left: 0;
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-radius: 8px 0 0 0;
+}
+
+.camera-screen__guide-corner--tr {
+  top: 0;
+  right: 0;
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-radius: 0 8px 0 0;
+}
+
+.camera-screen__guide-corner--bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-radius: 0 0 0 8px;
+}
+
+.camera-screen__guide-corner--br {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+  border-radius: 0 0 8px 0;
 }
 
 .camera-screen__status {

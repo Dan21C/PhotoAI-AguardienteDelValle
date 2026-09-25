@@ -19,6 +19,35 @@ export const assets = {
     campaignLockup: "/assets/home/campaign-lockup.png",
   },
 
+  // Composición específica de Instructions.
+  instructions: {
+    backgroundLeft: "/assets/instructions/background-left.png",
+    backgroundRight: "/assets/instructions/background-right.png",
+    backgroundTop: "/assets/instructions/background-top.png",
+    backgroundBottom: "/assets/instructions/background-bottom.png",
+    skylineSilhouette: "/assets/instructions/skyline-silhouette.png",
+    foliageCorner: "/assets/instructions/foliage-corner.png",
+    flourishTopRight: "/assets/instructions/flourish-top-right.png",
+    bottle: "/assets/instructions/bottle.png",
+    badge: "/assets/instructions/badge.png",
+    campaignBanner: "/assets/instructions/campaign-banner.png",
+    steps: [
+      "/assets/instructions/step-1.png",
+      "/assets/instructions/step-2.png",
+      "/assets/instructions/step-3.png",
+      "/assets/instructions/step-4.png",
+      "/assets/instructions/step-5.png",
+    ],
+  },
+
+  // Composición específica de Camera.
+  camera: {
+    background: "/assets/camera/background.png",
+    badge: "/assets/camera/badge.png",
+    titleSonrie: "/assets/camera/title-sonrie.png",
+    subtitle: "/assets/camera/subtitle.png",
+  },
+
   backgrounds: {
     main: "/assets/backgrounds/fiesta-blue.webp",
     qr: "/assets/backgrounds/qr-blue.webp",

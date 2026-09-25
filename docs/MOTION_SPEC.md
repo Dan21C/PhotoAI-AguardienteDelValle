@@ -262,7 +262,11 @@ Corta a propósito (300-500ms): la persona debe poder tomarse la foto
 rápido, no hay intro larga como en Home/Instructions.
 
 1. Fondo — `opacity 0→1`, 0.4s.
-2. Branding (logo + "Mira a cámara") — `y -12→0`, 0.35s.
+2. Branding (logo + badge "3 · TOMA DE FOTO" + "¡Sonríe!" + "Estamos
+   tomando tu foto", los 4 como una sola unidad `refs.branding`) —
+   `y -12→0`, 0.35s. Badge/título/subtítulo ahora son imágenes reales
+   (`assets.camera.badge/titleSonrie/subtitle`) en vez del texto plano
+   original — ver "Ajuste con assets reales" más abajo.
 3. Marco del preview — `scale .97→1`, 0.4s.
 4. Controles (botón shutter) — `y 16→0`, 0.35s.
 
@@ -314,7 +318,63 @@ con Playwright (cámara falsa de Chromium): tras varios ciclos
 Camera→captura→Retake→Camera, el conteo de `getUserMedia()` y
 `track.stop()` queda balanceado (0 tracks activos al finalizar).
 
+## Instructions y Camera — ajuste con assets reales
+
+Corrección posterior a Fase 4 (mismo tipo de ajuste que "Home — ajuste de
+layout con assets reales"): se integraron los assets reales entregados
+para Instructions y Camera, reemplazando placeholders CSS/SVG.
+
+### Instructions
+
+Capas nuevas (`src/animations/instructionsAnimations.js` reescrito,
+mismo patrón de timeline con cursor absoluto + stagger que antes):
+
+- Fondo ahora son **4 piezas independientes** (`bgTop`, `bgLeft`, `bgRight`,
+  `bgBottom`) + una silueta atmosférica (`skyline`) + un acento de foliage
+  de esquina (`foliageCorner`) + un flourish "Cali Siempre Inspira"
+  (`flourish`) — las 7 entran juntas con un stagger corto (0.05s) en vez
+  de una sola imagen fusionada, para poder animarlas por separado a
+  futuro.
+- La botella (`assets.instructions.bottle`) tiene su propia entrada
+  protagonista (`scale .85→1`, `y 80→0`, `x 40→0`, `back.out(1.1)`),
+  como en Home.
+- El antiguo componente `InstructionStep` (número+ícono+título+descripción
+  armados en CSS) se eliminó: los 5 pasos ahora son imágenes completas
+  (`assets.instructions.steps`, ya traen número/ícono/texto renderizados)
+  que solo animan como bloque (`opacity+y+scale`, stagger 0.12s) — sin la
+  sub-animación de "ícono entra 80ms después" (ya no aplica, es una sola
+  imagen).
+- Nuevo badge "2 · INSTRUCCIONES" (imagen) y subtítulo "Sigue estos pasos y
+  vive la experiencia" (texto real) entre el logo y los pasos.
+- El banner horizontal "EL SABOR que nos une ¡VA CON TODO!"
+  (`assets.instructions.campaignBanner`) entra justo antes del botón,
+  además del texto de campaña pequeño ya existente arriba a la izquierda
+  (`instructions-screen__campaign`, sin cambios).
+
+Motion ambiental: igual patrón (botella flotando, botón respirando) más un
+balanceo muy lento del foliage de esquina (`rotate`, `transformOrigin:
+"bottom left"`, 9s). Sigue sin animar las 5 tarjetas de pasos tras el
+intro (legibilidad).
+
+### Camera
+
+Sin cambios en la estructura del timeline (`createCameraIntroTimeline`
+sigue igual: fondo → branding → marco → controles). Lo que cambió es el
+CONTENIDO de cada capa:
+
+- Fondo: de gradiente CSS a foto real (`assets.camera.background`).
+- Branding: logo + badge "3 · TOMA DE FOTO" + "¡Sonríe!" + "Estamos
+  tomando tu foto" (las 3 últimas ahora imágenes, antes texto plano).
+- Marco del preview: `border`/`box-shadow` reforzados a un glow azul más
+  marcado, y la guía de encuadre (`.camera-screen__guide`) pasó de un
+  óvalo punteado a 4 corner-brackets en las esquinas (blanco, estilo
+  viewfinder) — inspirado en `camera/frame-reference.png`, que **no** se
+  usó como asset final porque trae una foto de stock de una persona real
+  horneada en el PNG (ver `docs/ARCHITECTURE.md`).
+- `CaptureButton` se mantuvo como componente interactivo (no se reemplazó
+  por `camera/shutter-reference.png`), solo como referencia de estilo.
+
 ## Fases siguientes
 
-Se documentarán aquí `MOTION_SPEC` para Camera/Photo Review, Location
-Selection, Processing, Result, QR y Thank You a medida que se implementen.
+Se documentarán aquí `MOTION_SPEC` para Location Selection, Processing,
+Result, QR y Thank You a medida que se implementen.

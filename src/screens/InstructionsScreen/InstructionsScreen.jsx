@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import BrandLogo from "../../components/BrandLogo/BrandLogo";
 import AnimatedButton from "../../components/AnimatedButton/AnimatedButton";
-import InstructionStep from "../../components/InstructionStep/InstructionStep";
 import { useSession } from "../../context/SessionContext";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { COPY } from "../../config/copy";
+import { assets } from "../../config/assets";
 import {
   createInstructionsIntroTimeline,
   startInstructionsAmbientMotion,
@@ -19,12 +20,19 @@ export default function InstructionsScreen() {
   const reducedMotion = useReducedMotion();
 
   const containerRef = useRef(null);
-  const backgroundRef = useRef(null);
-  const decorationRef = useRef(null);
-  const foliageLeftRef = useRef(null);
-  const foliageRightRef = useRef(null);
+  const bgTopRef = useRef(null);
+  const bgLeftRef = useRef(null);
+  const bgRightRef = useRef(null);
+  const bgBottomRef = useRef(null);
+  const skylineRef = useRef(null);
+  const foliageCornerRef = useRef(null);
+  const flourishRef = useRef(null);
+  const bottleRef = useRef(null);
+  const logoRef = useRef(null);
+  const badgeRef = useRef(null);
+  const subtitleRef = useRef(null);
   const campaignRef = useRef(null);
-  const titleRef = useRef(null);
+  const bannerRef = useRef(null);
   const buttonRef = useRef(null);
 
   const steps = COPY.instructions.steps;
@@ -40,13 +48,20 @@ export default function InstructionsScreen() {
   useGSAP(
     () => {
       const refs = {
-        background: backgroundRef,
-        decoration: decorationRef,
-        foliageLeft: foliageLeftRef,
-        foliageRight: foliageRightRef,
+        bgTop: bgTopRef,
+        bgLeft: bgLeftRef,
+        bgRight: bgRightRef,
+        bgBottom: bgBottomRef,
+        skyline: skylineRef,
+        foliageCorner: foliageCornerRef,
+        flourish: flourishRef,
+        bottle: bottleRef,
+        logo: logoRef,
+        badge: badgeRef,
+        subtitle: subtitleRef,
         campaign: campaignRef,
-        title: titleRef,
         steps: stepRefs,
+        banner: bannerRef,
         button: buttonRef,
       };
 
@@ -67,49 +82,65 @@ export default function InstructionsScreen() {
 
   return (
     <div className="instructions-screen" ref={containerRef}>
-      <div className="instructions-screen__background" ref={backgroundRef} />
+      <img className="instructions-screen__bg-top" ref={bgTopRef} src={assets.instructions.backgroundTop} alt="" />
+      <img className="instructions-screen__bg-left" ref={bgLeftRef} src={assets.instructions.backgroundLeft} alt="" />
+      <img className="instructions-screen__bg-right" ref={bgRightRef} src={assets.instructions.backgroundRight} alt="" />
+      <img className="instructions-screen__bg-bottom" ref={bgBottomRef} src={assets.instructions.backgroundBottom} alt="" />
+      <img className="instructions-screen__skyline" ref={skylineRef} src={assets.instructions.skylineSilhouette} alt="" aria-hidden="true" />
+      <img className="instructions-screen__foliage-corner" ref={foliageCornerRef} src={assets.instructions.foliageCorner} alt="" aria-hidden="true" />
+      <img className="instructions-screen__flourish" ref={flourishRef} src={assets.instructions.flourishTopRight} alt="" aria-hidden="true" />
 
-      <div className="instructions-screen__decoration" ref={decorationRef} aria-hidden="true" />
+      <div className="instructions-screen__vignette" aria-hidden="true" />
 
-      <div
-        className="instructions-screen__foliage instructions-screen__foliage--left"
-        ref={foliageLeftRef}
-        aria-hidden="true"
-      />
-      <div
-        className="instructions-screen__foliage instructions-screen__foliage--right"
-        ref={foliageRightRef}
-        aria-hidden="true"
+      <img
+        className="instructions-screen__bottle"
+        ref={bottleRef}
+        src={assets.instructions.bottle}
+        alt={COPY.instructions.bottleAlt}
       />
 
       <div className="instructions-screen__content">
-        <header className="instructions-screen__header">
-          <div className="instructions-screen__campaign" ref={campaignRef}>
-            <p>{COPY.campaign.line1}</p>
-            <p>{COPY.campaign.line2}</p>
-            <p>{COPY.campaign.line3}</p>
-          </div>
+        <div className="instructions-screen__campaign" ref={campaignRef}>
+          <p>{COPY.campaign.line1}</p>
+          <p>{COPY.campaign.line2}</p>
+          <p>{COPY.campaign.line3}</p>
+        </div>
 
-          <h1 className="instructions-screen__title" ref={titleRef}>
-            {COPY.instructions.title}
+        <header className="instructions-screen__header">
+          <BrandLogo ref={logoRef} className="instructions-screen__logo" />
+
+          <img
+            className="instructions-screen__badge"
+            ref={badgeRef}
+            src={assets.instructions.badge}
+            alt={`${COPY.instructions.badge.number} ${COPY.instructions.badge.label}`}
+          />
+
+          <h1 className="instructions-screen__title" ref={subtitleRef}>
+            {COPY.instructions.subtitle}
           </h1>
         </header>
 
         <ol className="instructions-screen__steps">
-          {steps.map((step, index) => (
-            <InstructionStep
-              key={step.title}
-              ref={(node) => {
-                stepRefs[index].current = node;
-              }}
-              index={index}
-              icon={step.icon}
-              title={step.title}
-              description={step.description}
-              className={index === 4 ? "instruction-step--wide" : ""}
-            />
+          {steps.map((stepAlt, index) => (
+            <li key={stepAlt} className="instructions-screen__step">
+              <img
+                ref={(node) => {
+                  stepRefs[index].current = node;
+                }}
+                src={assets.instructions.steps[index]}
+                alt={stepAlt}
+              />
+            </li>
           ))}
         </ol>
+
+        <img
+          className="instructions-screen__banner"
+          ref={bannerRef}
+          src={assets.instructions.campaignBanner}
+          alt={COPY.home.campaignAlt}
+        />
 
         <footer className="instructions-screen__footer">
           <AnimatedButton
@@ -118,6 +149,9 @@ export default function InstructionsScreen() {
             onClick={completeInstructions}
           >
             {COPY.instructions.cta}
+            <span className="instructions-screen__cta-chevron" aria-hidden="true">
+              &gt;
+            </span>
           </AnimatedButton>
         </footer>
       </div>

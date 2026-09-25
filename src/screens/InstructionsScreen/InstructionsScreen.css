@@ -3,128 +3,193 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  display: flex;
+  background: var(--color-fiesta-blue-900);
 }
 
-.instructions-screen__background {
+/* Fondo compuesto por piezas independientes (para animarlas/moverlas por
+   separado más adelante si hace falta), en vez de una sola imagen fusionada. */
+.instructions-screen__bg-top,
+.instructions-screen__bg-bottom {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 85% 15%, rgba(91, 141, 255, 0.3) 0%, transparent 45%),
-    radial-gradient(circle at 10% 90%, rgba(30, 79, 214, 0.28) 0%, transparent 50%),
-    linear-gradient(160deg, var(--color-fiesta-blue-700) 0%, var(--color-fiesta-blue-900) 65%, #020617 100%);
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
 }
 
-.instructions-screen__decoration {
+.instructions-screen__bg-top {
+  top: 0;
+}
+
+.instructions-screen__bg-bottom {
+  bottom: 0;
+}
+
+.instructions-screen__bg-left,
+.instructions-screen__bg-right {
   position: absolute;
   top: 0;
-  left: 8%;
-  right: 8%;
-  height: 6px;
-  border-radius: 0 0 12px 12px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-fiesta-blue-300) 20%,
-    var(--color-white) 50%,
-    var(--color-fiesta-blue-300) 80%,
-    transparent 100%
-  );
-  opacity: 0.8;
+  width: 58%;
+  height: auto;
+  z-index: 2;
 }
 
-.instructions-screen__foliage {
+.instructions-screen__bg-left {
+  left: 0;
+}
+
+.instructions-screen__bg-right {
+  right: 0;
+}
+
+.instructions-screen__skyline {
   position: absolute;
-  bottom: -50px;
-  width: 380px;
-  height: 280px;
-  background:
-    radial-gradient(circle at 30% 70%, rgba(91, 141, 255, 0.5) 0%, transparent 60%),
-    radial-gradient(circle at 60% 40%, rgba(18, 42, 122, 0.55) 0%, transparent 55%),
-    radial-gradient(circle at 45% 85%, rgba(5, 11, 46, 0.65) 0%, transparent 60%);
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-.instructions-screen__foliage--left {
-  left: -50px;
-  transform-origin: bottom left;
-}
-
-.instructions-screen__foliage--right {
-  right: -50px;
-  transform-origin: bottom right;
-  transform: scaleX(-1);
-}
-
-.instructions-screen__content {
-  position: relative;
-  z-index: 1;
+  bottom: 6%;
+  left: 0;
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 56px 100px 48px;
-  gap: 24px;
+  height: auto;
+  z-index: 3;
+  opacity: 0.55;
 }
 
-.instructions-screen__header {
-  display: flex;
-  align-items: baseline;
-  gap: 40px;
+.instructions-screen__foliage-corner {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  width: 22%;
+  height: auto;
+  z-index: 6;
+}
+
+.instructions-screen__flourish {
+  position: absolute;
+  top: 5%;
+  right: 6%;
+  width: 15%;
+  height: auto;
+  z-index: 3;
+}
+
+.instructions-screen__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background:
+    linear-gradient(0deg, rgba(2, 6, 23, 0.55) 0%, transparent 30%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.45) 0%, transparent 22%),
+    radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(2, 6, 23, 0.4) 100%);
+}
+
+.instructions-screen__bottle {
+  position: absolute;
+  z-index: 5;
+  right: 1%;
+  bottom: 0;
+  height: 82%;
+  width: auto;
+  filter: drop-shadow(0 20px 40px rgba(2, 6, 23, 0.6));
 }
 
 .instructions-screen__campaign {
-  --campaign-glow: 0;
+  position: absolute;
+  z-index: 7;
+  left: 56px;
+  top: 40px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  flex: none;
 }
 
 .instructions-screen__campaign p {
   margin: 0;
   font-family: var(--font-brand);
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.1;
   letter-spacing: 1px;
-  color: var(--color-text-muted);
-  text-shadow: 0 0 calc(6px + var(--campaign-glow) * 26px) var(--color-fiesta-glow);
+  color: var(--color-white);
+  text-shadow: 0 0 16px var(--color-fiesta-glow);
+}
+
+.instructions-screen__content {
+  position: relative;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 0 26px;
+  gap: 14px;
+}
+
+.instructions-screen__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.instructions-screen__logo {
+  width: 210px;
+}
+
+.instructions-screen__badge {
+  width: 380px;
+  height: auto;
 }
 
 .instructions-screen__title {
   margin: 0;
-  font-family: var(--font-brand);
-  font-size: 56px;
-  letter-spacing: 1px;
+  font-size: 26px;
+  font-weight: 700;
   color: var(--color-white);
-  text-shadow: 0 0 30px var(--color-fiesta-glow);
+  text-align: center;
+  text-shadow: 0 0 16px var(--color-fiesta-glow);
 }
 
-/* <ol> con los 5 <li> (InstructionStep) directos: la grilla de 3
-   columnas ubica automáticamente 3 pasos arriba + 2 abajo (el paso 5
-   ocupa 2 columnas vía .instruction-step--wide), sin necesitar <div>
-   de fila envolviendo la lista. */
 .instructions-screen__steps {
   flex: 1;
+  min-height: 0;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-content: center;
-  gap: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
 }
 
-.instruction-step:nth-child(-n + 3) {
-  min-height: 220px;
+.instructions-screen__step {
+  flex: none;
+  height: 100%;
+  max-height: 340px;
+  display: flex;
+  align-items: center;
 }
 
-.instruction-step:nth-child(n + 4) {
-  min-height: 200px;
+.instructions-screen__step img {
+  height: 100%;
+  width: auto;
+  max-width: 230px;
+  object-fit: contain;
+}
+
+.instructions-screen__banner {
+  width: 440px;
+  height: auto;
 }
 
 .instructions-screen__footer {
   display: flex;
   justify-content: center;
+}
+
+.instructions-screen__cta {
+  display: inline-flex;
+  align-items: center;
+}
+
+.instructions-screen__cta-chevron {
+  margin-left: 12px;
+  font-family: var(--font-brand);
 }

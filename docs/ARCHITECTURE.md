@@ -35,10 +35,12 @@ de la interfaz. Ver `PHOTO_OUTPUT_FORMATS` en `src/config/appConfig.js`.
 ```
 src/
   components/       Componentes reutilizables: TabletStage (Fase 1);
-                     AnimatedButton, BrandLogo, BrandBottle, InstructionIcon,
-                     InstructionStep (Fase 2/3); ScreenTransition, LocationCard,
-                     QRCard, PhotoFrame, LoadingExperience se agregan en sus
-                     fases correspondientes
+                     AnimatedButton, BrandLogo, BrandBottle (Fase 2/3);
+                     CaptureButton (Fase 4). InstructionIcon/InstructionStep
+                     (Fase 3) se eliminaron al integrar assets reales de
+                     Instructions (ver más abajo). ScreenTransition,
+                     LocationCard, QRCard, PhotoFrame, LoadingExperience se
+                     agregan en sus fases correspondientes
   screens/          Una carpeta por pantalla. Implementadas: HomeScreen (Fase 2),
                      InstructionsScreen (Fase 3), CameraScreen, PhotoReviewScreen
                      (Fase 4). El resto (Location, Processing, Result, QR,
@@ -145,6 +147,38 @@ transparente alrededor del contenido visible (p. ej.
 `overflow:hidden` + `<img>` desplazado) en vez de editar el archivo — el
 bounding box real se midió una vez con un canvas (`getImageData`) para fijar
 esos valores.
+
+**Assets reales de Instructions y Camera:** mismo patrón — `assets.instructions.*`
+y `assets.camera.*` agrupan las piezas de cada pantalla. Regla aplicada de
+forma consistente al decidir si un asset se usa tal cual o se reconstruye:
+
+- **Elementos puramente informativos/decorativos** (fondos, badges de
+  pantalla, las 5 tarjetas de pasos de Instructions con número+ícono+texto
+  ya renderizados) → se usan las imágenes tal cual, con `alt` real para
+  accesibilidad. No tiene sentido re-dibujar en CSS algo que el cliente ya
+  entregó terminado, y no son interactivos.
+- **Controles interactivos** (botón "¡LISTO!"/"CAPTURAR", el marco/guía de
+  la cámara) → se mantienen como componentes reales (`AnimatedButton`,
+  `CaptureButton`, `.camera-screen__guide` en CSS) en vez de imágenes
+  planas, aunque el cliente entregó referencias visuales para ellos
+  (`cta-reference.png`, `shutter-reference.png`, `frame-reference.png`).
+  Motivo: un botón como imagen pierde estados (disabled/hover), texto
+  editable/accesible para lectores de pantalla, y flexibilidad ante cambios
+  de copy — esas referencias se usaron para afinar el CSS (glow, grosor de
+  borde), no como el asset final. `frame-reference.png` además trae una
+  foto de stock de una persona horneada en el PNG, así que no podía usarse
+  en producción de todos modos.
+- **Logos duplicados por pantalla** (`instructions/logo-badge-alt.png`,
+  `camera/logo-badge-alt.png`, `camera/fiesta-wordmark-alt.png`) → se
+  descartaron a favor de reutilizar el único `BrandLogo`/`assets.brand.logoFiesta`
+  ya integrado, para mantener el logo visualmente idéntico en toda la app
+  y no depender de tres renders ligeramente distintos.
+
+Los cinco pasos de Instructions ya no usan un componente `InstructionStep`
+con sub-elementos (número/ícono/título) — ahora son un `<li><img></li>`
+directo por paso, más simple porque toda esa composición ya vive en el PNG.
+`docs/ASSETS_TODO.md` lista explícitamente los assets recibidos que NO se
+wirearon, con el motivo de cada uno.
 
 ## Integraciones futuras (no implementadas todavía)
 

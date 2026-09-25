@@ -21,26 +21,27 @@ export const COPY = {
   },
 
   instructions: {
+    badge: { number: "2", label: "INSTRUCCIONES" },
     title: "¿CÓMO PARTICIPAR?",
+    subtitle: "Sigue estos pasos y vive la experiencia",
+    // Texto accesible de cada paso (alt de step-N.png, que ya trae el
+    // número/ícono/texto renderizado). Mantener en sync con esos PNG.
     steps: [
-      { icon: "camera", title: "Tómate una foto." },
-      { icon: "location", title: "Elige tu escenario favorito de Cali." },
-      { icon: "spark", title: "Deja que la IA transforme tu foto." },
-      { icon: "qr", title: "Escanea el código QR y descarga tu foto." },
-      {
-        icon: "share",
-        title: "PUBLICA Y PARTICIPA",
-        description:
-          "Publícala y etiqueta a @aguardientedelvalle para participar por 10 botellas de Aguardiente del Valle con las fotos que obtengan más likes.",
-      },
+      "Ubícate frente a la cámara.",
+      "Tómate la foto.",
+      "Elige tu escenario de Cali.",
+      "Escanea tu foto con el código QR.",
+      "Etiqueta a @aguardientedelvalle y participa por 10 botellas de Aguardiente del Valle a las fotos con más likes.",
     ],
+    bottleAlt: "Botella de Aguardiente Blanco del Valle Fiesta",
     cta: "¡LISTO!",
   },
 
   camera: {
+    badge: { number: "3", label: "TOMA DE FOTO" },
     eyebrow: "Aguardiente Blanco del Valle Fiesta",
-    title: "PREPÁRATE PARA TU FOTO",
-    subtitle: "Mira a cámara",
+    title: "¡Sonríe!",
+    subtitle: "Estamos tomando tu foto",
     requesting: "SOLICITANDO PERMISO...",
     activating: "ACTIVANDO CÁMARA...",
     activateCta: "ACTIVAR CÁMARA",

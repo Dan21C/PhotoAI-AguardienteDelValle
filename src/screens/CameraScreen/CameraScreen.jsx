@@ -8,6 +8,7 @@ import { useSession } from "../../context/SessionContext";
 import { useCamera } from "../../hooks/useCamera";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { COPY } from "../../config/copy";
+import { assets } from "../../config/assets";
 import { CAMERA_CONFIG } from "../../config/appConfig";
 import {
   createCameraIntroTimeline,
@@ -121,11 +122,17 @@ export default function CameraScreen() {
 
   return (
     <div className="camera-screen" ref={containerRef}>
-      <div className="camera-screen__background" ref={backgroundRef} />
+      <img className="camera-screen__background" ref={backgroundRef} src={assets.camera.background} alt="" />
 
       <header className="camera-screen__header" ref={brandingRef}>
         <BrandLogo className="camera-screen__logo" />
-        <p className="camera-screen__subtitle">{COPY.camera.subtitle}</p>
+        <img
+          className="camera-screen__badge"
+          src={assets.camera.badge}
+          alt={`${COPY.camera.badge.number} ${COPY.camera.badge.label}`}
+        />
+        <img className="camera-screen__title" src={assets.camera.titleSonrie} alt={COPY.camera.title} />
+        <img className="camera-screen__subtitle" src={assets.camera.subtitle} alt={COPY.camera.subtitle} />
       </header>
 
       <div className="camera-screen__stage">
@@ -139,7 +146,12 @@ export default function CameraScreen() {
                 playsInline
                 muted
               />
-              <div className="camera-screen__guide" aria-hidden="true" />
+              <div className="camera-screen__guide" aria-hidden="true">
+                <span className="camera-screen__guide-corner camera-screen__guide-corner--tl" />
+                <span className="camera-screen__guide-corner camera-screen__guide-corner--tr" />
+                <span className="camera-screen__guide-corner camera-screen__guide-corner--bl" />
+                <span className="camera-screen__guide-corner camera-screen__guide-corner--br" />
+              </div>
 
               {!videoReady && (
                 <div className="camera-screen__status">{statusText}</div>

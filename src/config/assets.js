@@ -12,6 +12,13 @@ export const assets = {
     fiesta: "/assets/bottle/fiesta.png",
   },
 
+  // Composición específica de Home (no reutilizable en otras pantallas).
+  home: {
+    background: "/assets/home/background.png",
+    crowd: "/assets/home/crowd.png",
+    campaignLockup: "/assets/home/campaign-lockup.png",
+  },
+
   backgrounds: {
     main: "/assets/backgrounds/fiesta-blue.webp",
     qr: "/assets/backgrounds/qr-blue.webp",

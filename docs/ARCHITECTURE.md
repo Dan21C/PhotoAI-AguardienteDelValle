@@ -133,6 +133,19 @@ Ningún componente debe conocer rutas físicas de archivos. Todas las rutas
 viven en `src/config/assets.js` y se sirven desde `public/assets/<categoría>/`.
 Ver `docs/ASSETS_TODO.md` para el listado de producción pendiente.
 
+**Assets reales de marca (Home, Fase 4):** `BrandLogo` y `BrandBottle`
+renderizan directamente `assets.brand.logoFiesta` y `assets.bottle.fiesta`
+(ya no son placeholders CSS) — cualquier pantalla que los use (Home,
+Camera) recibe el asset real automáticamente. `assets.home.*` agrupa las
+capas de composición específicas de Home (`background`, `crowd`,
+`campaignLockup`) que no se reutilizan en otras pantallas, separado de
+`brand`/`bottle` que sí son genéricos. Cuando un PNG con alpha trae relleno
+transparente alrededor del contenido visible (p. ej.
+`assets.home.campaignLockup`), se recorta por CSS (contenedor
+`overflow:hidden` + `<img>` desplazado) en vez de editar el archivo — el
+bounding box real se midió una vez con un canvas (`getImageData`) para fijar
+esos valores.
+
 ## Integraciones futuras (no implementadas todavía)
 
 ### Generación de imagen con IA

@@ -3,111 +3,176 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  display: flex;
+  background: var(--color-fiesta-blue-900);
 }
+
+/* Jerarquía de capas (z-index = orden pedido): fondo(1) < personas(2) <
+   degradado(3) < marco(4) < botella(5) < badge(6) < logo(7) < eslogan(8) <
+   título(9) < texto secundario(10) < botón(11) < footer(12). */
 
 .home-screen__background {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 78% 22%, rgba(91, 141, 255, 0.35) 0%, transparent 45%),
-    radial-gradient(circle at 15% 85%, rgba(30, 79, 214, 0.3) 0%, transparent 50%),
-    linear-gradient(160deg, var(--color-fiesta-blue-700) 0%, var(--color-fiesta-blue-900) 65%, #020617 100%);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.home-screen__background::after {
-  content: "";
+.home-screen__crowd {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+
+.home-screen__vignette {
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 220px rgba(0, 0, 0, 0.65);
-}
-
-.home-screen__decoration {
-  position: absolute;
-  top: 0;
-  left: 8%;
-  right: 8%;
-  height: 6px;
-  border-radius: 0 0 12px 12px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-fiesta-blue-300) 20%,
-    var(--color-white) 50%,
-    var(--color-fiesta-blue-300) 80%,
-    transparent 100%
-  );
-  filter: blur(0.5px);
-  opacity: 0.8;
-}
-
-.home-screen__foliage {
-  position: absolute;
-  bottom: -40px;
-  width: 420px;
-  height: 320px;
+  z-index: 3;
   background:
-    radial-gradient(circle at 30% 70%, rgba(91, 141, 255, 0.55) 0%, transparent 60%),
-    radial-gradient(circle at 60% 40%, rgba(18, 42, 122, 0.6) 0%, transparent 55%),
-    radial-gradient(circle at 45% 85%, rgba(5, 11, 46, 0.7) 0%, transparent 60%);
-  filter: blur(2px);
+    linear-gradient(90deg, rgba(2, 6, 23, 0.82) 0%, rgba(2, 6, 23, 0.35) 46%, rgba(2, 6, 23, 0.05) 68%),
+    linear-gradient(0deg, rgba(2, 6, 23, 0.65) 0%, transparent 22%),
+    linear-gradient(200deg, rgba(10, 21, 80, 0.35) 0%, transparent 55%);
+}
+
+.home-screen__frame {
+  position: absolute;
+  inset: 20px;
+  z-index: 4;
+  --frame-glow: 0;
+  border-radius: 32px;
+  border: 2px solid rgba(120, 170, 255, 0.9);
+  box-shadow:
+    0 0 calc(30px + var(--frame-glow) * 20px) calc(4px + var(--frame-glow) * 4px) var(--color-fiesta-glow),
+    inset 0 0 30px 2px rgba(91, 141, 255, 0.45);
   pointer-events: none;
 }
 
-.home-screen__foliage--left {
-  left: -60px;
-  transform-origin: bottom left;
+.home-screen__bottle-wrapper {
+  position: absolute;
+  z-index: 5;
+  right: 30px;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 92%;
 }
 
-.home-screen__foliage--right {
-  right: -60px;
-  transform-origin: bottom right;
-  transform: scaleX(-1);
+.home-screen__bottle-wrapper .brand-bottle {
+  width: auto;
+  height: 100%;
+  max-width: 640px;
 }
 
 .home-screen__content {
   position: relative;
-  z-index: 1;
+  z-index: 6;
   width: 100%;
   height: 100%;
+}
+
+.home-screen__badge {
+  position: absolute;
+  left: 70px;
+  top: 54px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 120px;
-  gap: 60px;
+}
+
+.home-screen__badge-number {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-brand);
+  font-size: 20px;
+  color: var(--color-white);
+  background: var(--color-fiesta-blue-300);
+  box-shadow: 0 0 16px var(--color-fiesta-glow);
+}
+
+.home-screen__badge-label {
+  margin-left: -16px;
+  padding: 9px 22px 9px 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 170, 255, 0.8);
+  background: rgba(10, 21, 80, 0.85);
+  box-shadow: 0 0 16px var(--color-fiesta-glow);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-white);
 }
 
 .home-screen__copy {
+  position: absolute;
+  left: 70px;
+  top: 122px;
+  width: 520px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 28px;
-  max-width: 900px;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.home-screen__logo {
+  width: 300px;
+  margin-bottom: -4px;
+}
+
+/* El lienzo de campaign-lockup.png (1122x1402) tiene relleno transparente
+   arriba/abajo del gráfico real (bbox visible: y 301-1116 de 1402). Este
+   frame recorta esa transparencia por CSS (sin tocar el archivo) para no
+   desperdiciar espacio vertical del layout. */
+.home-screen__campaign-frame {
+  position: relative;
+  width: 300px;
+  height: 218px;
+  overflow: hidden;
 }
 
 .home-screen__campaign {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.home-screen__campaign p {
-  margin: 0;
-  font-family: var(--font-brand);
-  font-size: 40px;
-  line-height: 1.05;
-  letter-spacing: 1px;
-  color: var(--color-text-muted);
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 300px;
+  height: auto;
 }
 
 .home-screen__headline {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-screen__headline-primary {
   font-family: var(--font-brand);
-  font-size: 88px;
+  font-size: 66px;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--color-white);
+  text-shadow: 0 0 30px var(--color-fiesta-glow);
+}
+
+.home-screen__headline-secondary {
+  margin-top: 2px;
+  font-family: var(--font-brand);
+  font-size: 42px;
   line-height: 1.05;
   letter-spacing: 1px;
   color: var(--color-white);
-  text-shadow: 0 0 40px var(--color-fiesta-glow);
+  text-shadow: 0 0 24px var(--color-fiesta-glow);
 }
 
 .home-screen__description {
@@ -115,17 +180,41 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 28px;
-  line-height: 1.4;
+  font-size: 24px;
+  line-height: 1.35;
+  color: var(--color-white);
+}
+
+.home-screen__cta {
+  margin-top: 8px;
+}
+
+.home-screen__cta-chevron {
+  margin-left: 12px;
+  font-family: var(--font-brand);
+}
+
+.home-screen__taglines {
+  position: absolute;
+  z-index: 12;
+  left: 0;
+  right: 0;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.home-screen__tagline {
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-.home-screen__bottle-wrapper {
-  position: relative;
-  flex: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-  padding-bottom: 60px;
+.home-screen__tagline:not(:last-child)::after {
+  content: "•";
+  margin-left: 14px;
+  color: var(--color-fiesta-blue-300);
 }

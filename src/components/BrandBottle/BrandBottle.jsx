@@ -1,19 +1,20 @@
 import { forwardRef } from "react";
+import { assets } from "../../config/assets";
+import { COPY } from "../../config/copy";
 import "./BrandBottle.css";
 
-// Placeholder de la botella Fiesta hasta recibir el render oficial
-// (ver docs/ASSETS_TODO.md). Estructurado para reemplazarse por una <img>
-// apuntando a assets.bottle.fiesta sin tocar quien lo consume.
+// Botella oficial Fiesta (incluye el agave/hielo decorativo del render).
+// La ruta vive en config/assets.js: para reemplazar el asset basta con
+// actualizar esa ruta, sin tocar quien consume este componente.
 const BrandBottle = forwardRef(function BrandBottle({ className = "", ...rest }, ref) {
   return (
-    <div ref={ref} className={`brand-bottle ${className}`.trim()} {...rest}>
-      <div className="brand-bottle__glow" aria-hidden="true" />
-      <div className="brand-bottle__cap" />
-      <div className="brand-bottle__neck" />
-      <div className="brand-bottle__body">
-        <span className="brand-bottle__label">{"BOTELLA\nFIESTA"}</span>
-      </div>
-    </div>
+    <img
+      ref={ref}
+      className={`brand-bottle ${className}`.trim()}
+      src={assets.bottle.fiesta}
+      alt={COPY.home.bottleAlt}
+      {...rest}
+    />
   );
 });
 

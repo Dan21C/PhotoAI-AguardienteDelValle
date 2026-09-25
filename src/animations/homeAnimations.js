@@ -4,22 +4,23 @@ import gsap from "gsap";
 // docs/MOTION_SPEC.md — si cambias algo aquí, actualiza ese archivo.
 export const HOME_MOTION = {
   intro: {
-    background: { duration: 0.35 },
-    decoration: { duration: 0.5, fromY: -120 },
-    foliage: { duration: 0.7, fromX: 200, fromY: 40 },
+    background: { duration: 0.4 },
+    crowd: { duration: 0.6, fromY: 24 },
+    frame: { duration: 0.5 },
     bottle: { duration: 0.9, fromScale: 0.75, fromRotation: 6, fromY: 120, fromX: 60 },
-    branding: { duration: 0.55, fromScale: 0.85, fromY: -20 },
+    badge: { duration: 0.4, fromScale: 0.9, fromY: -10 },
+    logo: { duration: 0.55, fromScale: 0.85, fromY: -20 },
     campaign: { duration: 0.55, fromY: 30 },
     headline: { duration: 0.55, fromY: 35 },
     description: { duration: 0.5, fromY: 20 },
     button: { duration: 0.5, fromScale: 0.9, fromY: 20 },
+    taglines: { duration: 0.45, fromY: 12 },
     stagger: 0.14,
   },
   ambient: {
-    foliageLeft: { rotate: 1, x: 4, y: 3, duration: 9 },
-    foliageRight: { rotate: -1, x: -3, y: 4, duration: 11 },
     bottle: { y: -5, rotation: 0.3, duration: 6.5 },
     button: { scale: 1.025, glowOpacity: 0.85, duration: 2.4 },
+    frameGlow: { duration: 4.5 },
   },
   energyPulse: {
     minDelay: 8,
@@ -30,7 +31,8 @@ export const HOME_MOTION = {
 
 // Construye la timeline de entrada de Home. Los elementos comienzan fuera
 // del viewport / invisibles y se van construyendo en el orden pedido:
-// fondo → decoración → foliage → botella → branding → headline → descripción → botón.
+// fondo → multitud → marco → botella → logo → campaña → headline →
+// descripción → botón → taglines.
 //
 // Con prefers-reduced-motion, se omiten los desplazamientos/overshoots y
 // solo se hace un fade-in corto y simultáneo (sin perder funcionalidad).
@@ -40,15 +42,16 @@ export function createHomeIntroTimeline(refs, { reducedMotion = false } = {}) {
   const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
   const elements = [
-    refs.decoration.current,
-    refs.foliageLeft.current,
-    refs.foliageRight.current,
+    refs.crowd.current,
+    refs.frame.current,
     refs.bottle.current,
+    refs.badge.current,
     refs.logo.current,
     refs.campaign.current,
     refs.headline.current,
     refs.description.current,
     refs.button.current,
+    refs.taglines.current,
   ];
 
   if (reducedMotion) {
@@ -69,24 +72,17 @@ export function createHomeIntroTimeline(refs, { reducedMotion = false } = {}) {
   );
 
   tl.fromTo(
-    refs.decoration.current,
-    { autoAlpha: 0, y: intro.decoration.fromY },
-    { autoAlpha: 1, y: 0, duration: intro.decoration.duration },
-    "-=0.1",
-  );
-
-  tl.fromTo(
-    refs.foliageLeft.current,
-    { autoAlpha: 0, x: -intro.foliage.fromX, y: intro.foliage.fromY },
-    { autoAlpha: 1, x: 0, y: 0, duration: intro.foliage.duration, ease: "back.out(1.4)" },
+    refs.crowd.current,
+    { autoAlpha: 0, y: intro.crowd.fromY },
+    { autoAlpha: 1, y: 0, duration: intro.crowd.duration },
     "-=0.15",
   );
 
   tl.fromTo(
-    refs.foliageRight.current,
-    { autoAlpha: 0, x: intro.foliage.fromX, y: intro.foliage.fromY },
-    { autoAlpha: 1, x: 0, y: 0, duration: intro.foliage.duration, ease: "back.out(1.4)" },
-    "<0.08",
+    refs.frame.current,
+    { autoAlpha: 0 },
+    { autoAlpha: 1, duration: intro.frame.duration },
+    "-=0.2",
   );
 
   tl.fromTo(
@@ -107,21 +103,28 @@ export function createHomeIntroTimeline(refs, { reducedMotion = false } = {}) {
       duration: intro.bottle.duration,
       ease: "back.out(1.15)",
     },
-    "-=0.2",
+    "-=0.1",
+  );
+
+  tl.fromTo(
+    refs.badge.current,
+    { autoAlpha: 0, scale: intro.badge.fromScale, y: intro.badge.fromY },
+    { autoAlpha: 1, scale: 1, y: 0, duration: intro.badge.duration },
+    "-=0.35",
   );
 
   tl.fromTo(
     refs.logo.current,
-    { autoAlpha: 0, scale: intro.branding.fromScale, y: intro.branding.fromY },
-    { autoAlpha: 1, scale: 1, y: 0, duration: intro.branding.duration },
-    "-=0.35",
+    { autoAlpha: 0, scale: intro.logo.fromScale, y: intro.logo.fromY },
+    { autoAlpha: 1, scale: 1, y: 0, duration: intro.logo.duration },
+    "-=0.15",
   );
 
   tl.fromTo(
     refs.campaign.current,
     { autoAlpha: 0, y: intro.campaign.fromY },
     { autoAlpha: 1, y: 0, duration: intro.campaign.duration },
-    `-=${intro.branding.duration - intro.stagger}`,
+    `-=${intro.logo.duration - intro.stagger}`,
   );
 
   tl.fromTo(
@@ -151,6 +154,13 @@ export function createHomeIntroTimeline(refs, { reducedMotion = false } = {}) {
     "-=0.1",
   );
 
+  tl.fromTo(
+    refs.taglines.current,
+    { autoAlpha: 0, y: intro.taglines.fromY },
+    { autoAlpha: 1, y: 0, duration: intro.taglines.duration },
+    "-=0.1",
+  );
+
   return tl;
 }
 
@@ -162,34 +172,6 @@ export function startAmbientMotion(refs, { reducedMotion = false } = {}) {
 
   const { ambient } = HOME_MOTION;
   const tweens = [];
-
-  if (refs.foliageLeft.current) {
-    tweens.push(
-      gsap.to(refs.foliageLeft.current, {
-        rotate: ambient.foliageLeft.rotate,
-        x: `+=${ambient.foliageLeft.x}`,
-        y: `+=${ambient.foliageLeft.y}`,
-        duration: ambient.foliageLeft.duration,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      }),
-    );
-  }
-
-  if (refs.foliageRight.current) {
-    tweens.push(
-      gsap.to(refs.foliageRight.current, {
-        rotate: ambient.foliageRight.rotate,
-        x: `+=${ambient.foliageRight.x}`,
-        y: `+=${ambient.foliageRight.y}`,
-        duration: ambient.foliageRight.duration,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      }),
-    );
-  }
 
   if (refs.bottle.current) {
     tweens.push(
@@ -227,6 +209,20 @@ export function startAmbientMotion(refs, { reducedMotion = false } = {}) {
         }),
       );
     }
+  }
+
+  if (refs.frame.current) {
+    // Pulso de luz muy lento sobre el marco/contorno azul (custom property
+    // CSS, ver .home-screen__frame): normal → glow mayor → normal.
+    tweens.push(
+      gsap.to(refs.frame.current, {
+        "--frame-glow": 1,
+        duration: ambient.frameGlow.duration,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      }),
+    );
   }
 
   return () => tweens.forEach((tween) => tween.kill());
@@ -269,20 +265,6 @@ export function startEnergyPulses(refs, { reducedMotion = false } = {}) {
         refs.bottle.current,
         {
           x: `+=${gsap.utils.random(-2, 2)}`,
-          duration: half,
-          yoyo: true,
-          repeat: 1,
-          ease: "sine.inOut",
-        },
-        0,
-      );
-    }
-    if (refs.decoration.current) {
-      tl.to(
-        refs.decoration.current,
-        {
-          x: gsap.utils.random(-2, 2),
-          y: gsap.utils.random(-2, 2),
           duration: half,
           yoyo: true,
           repeat: 1,

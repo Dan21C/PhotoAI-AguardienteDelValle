@@ -22,14 +22,23 @@ animaciones. Fase 1 solo define la base técnica.
 - Transiciones entre pantallas: 300–500ms, sin cortes secos (ver
   `ScreenTransition`, fase posterior).
 
-## Fase 2 — Home (implementado)
+## Fase 2 — Home (implementado; capas actualizadas a assets reales en el
+ajuste de layout post-Fase 4, ver sección propia más abajo)
 
 Toda la lógica vive en `src/animations/homeAnimations.js`
 (`HOME_MOTION`, `createHomeIntroTimeline`, `startAmbientMotion`,
 `startEnergyPulses`), orquestada desde `src/screens/HomeScreen/HomeScreen.jsx`
 dentro de un único `useGSAP(..., { scope: containerRef })` con cleanup.
 
-### Timeline de entrada (`createHomeIntroTimeline`)
+Las capas placeholder originales (fondo con gradiente CSS, foliage
+izquierda/derecha, barra de decoración) fueron reemplazadas por los assets
+reales de marca (fondo fotográfico, capa de personas, marco de neón, badge
+"BIENVENIDA") — ver "Ajuste de layout Home con assets reales" más abajo
+para el timeline y motion ambiental REALES actualmente implementados. Esta
+sección se conserva como referencia histórica de los valores usados en la
+Fase 2 original.
+
+### Timeline de entrada original (Fase 2)
 
 Orden (con solapamientos `-=` para que se sienta fluida, no cortada):
 
@@ -49,22 +58,12 @@ Orden (con solapamientos `-=` para que se sienta fluida, no cortada):
 
 Stagger base entre bloques de copy: 0.14s.
 
-### Motion ambiental (`startAmbientMotion`, arranca al terminar el intro)
-
-Cada capa respira a una velocidad distinta (nada sincronizado):
-
-- Foliage izquierdo: `rotate 0→1deg`, `x +4`, `y +3`, 9s, yoyo, `repeat: -1`.
-- Foliage derecho: `rotate 0→-1deg`, `x -3`, `y +4`, 11s, yoyo, `repeat: -1`.
-- Botella: `y 0↔-5px`, `rotation 0↔0.3deg`, 6.5s, yoyo, `repeat: -1`.
-- Botón: `scale 1↔1.025`, 2.4s, yoyo, `repeat: -1`; su glow interno
-  (`.animated-button__glow`) sube de opacidad en sincronía.
-
 ### Golpe de energía ocasional (`startEnergyPulses`)
 
 Cada 8–14s (aleatorio, `gsap.utils.random`), un micro-shake de ~0.32s en
-varias capas a la vez (headline, logo, decoración, botella, botón). El
-timer se reprograma recursivamente vía `setTimeout` y se limpia junto con
-la tween activa en el cleanup de `useGSAP`.
+varias capas a la vez (headline, logo, botella, botón). El timer se
+reprograma recursivamente vía `setTimeout` y se limpia junto con la tween
+activa en el cleanup de `useGSAP`.
 
 **Nota de implementación (evita pisar las loops ambientales):** GSAP
 sobreescribe por defecto una tween activa cuando otra tween distinta anima
@@ -72,8 +71,8 @@ la misma propiedad del mismo nodo. Como la ambient loop de la botella ya
 usa `rotation`+`y`, y la del botón ya usa `scale`, el pulso de energía usa
 propiedades distintas en esos dos casos para no matar la loop infinita:
 botella → `x` (en vez de `rotation`), botón → `y` (en vez de `scale`).
-Headline, logo y decoración sí usan `x`/`y` tal como se pidió, porque no
-tienen loop ambiental propia con la que puedan chocar.
+Headline y logo sí usan `x` tal como se pidió, porque no tienen loop
+ambiental propia con la que puedan chocar.
 
 ### Cleanup
 
@@ -90,6 +89,65 @@ preferencia del sistema/dispositivo. Si está activa, `createHomeIntroTimeline`
 hace un único fade-in corto (0.25s, stagger 0.02s, sin desplazamientos ni
 overshoots) y `startAmbientMotion`/`startEnergyPulses` no crean ningún loop
 (no-op). La funcionalidad (botón, navegación) no depende del motion.
+
+## Home — ajuste de layout con assets reales
+
+Corrección posterior a Fase 4: se integraron los assets reales de marca
+(recibidos del cliente) reemplazando los placeholders CSS de Home, y se
+corrigió la composición para que coincida con la referencia visual
+aprobada (verificado explícitamente también a **1280×800**, además de
+1920×1080/1366×768/1280×720).
+
+### Capas y jerarquía (`z-index` = orden pedido en la referencia)
+
+1. Fondo (`assets.home.background`, foto de Cali) — cubre todo el stage.
+2. Capa de personas (`assets.home.crowd`) — overlay inferior, PNG con
+   alpha (transparente en la mitad superior).
+3. Degradado/oscurecimiento ambiental (`.home-screen__vignette`, solo CSS)
+   — para legibilidad del texto sobre la foto.
+4. Marco de neón (`.home-screen__frame`) — borde azul luminoso, `inset:20px`.
+5. Botella + hielo + agave (`assets.bottle.fiesta`, un solo PNG — el
+   render ya incluye la decoración, no son capas separadas).
+6. Badge "1 · BIENVENIDA" (`.home-screen__badge`) — esquina superior
+   izquierda, primer elemento del bloque informativo.
+7. Logo (`assets.brand.logoFiesta`, vía `BrandLogo`).
+8. Eslogan / lockup de campaña (`assets.home.campaignLockup`).
+9. Título "VIVE CALI / EN UNA FOTO ÚNICA" — dos líneas explícitas
+   (`COPY.home.headline` es un array de 2 strings), la primera con mayor
+   tamaño de fuente que la segunda.
+10. Texto secundario ("Nuestra cultura. Nuestros sabores." / "Nuestras
+    historias.") — `COPY.home.description`, 2 líneas, blanco (no gris).
+11. Botón "INICIAR >" (`AnimatedButton` + chevron).
+12. Footer/taglines ("BUEN SABOR • BUENAS HISTORIAS • LA MISMA GENTE").
+
+Todas las capas permanecen elementos DOM independientes (nada se fusiona
+en una sola imagen), precisamente para permitir animarlas por separado —
+igual que ya hacía Fase 2.
+
+### Recorte CSS de `campaign-lockup.png`
+
+El lienzo de ese PNG (1122×1402) tiene relleno transparente arriba/abajo
+del gráfico real: el bounding box visible medido con un `<canvas>` +
+`getImageData()` es `y: 301–1116` (de 1402), o sea ~58% del alto total.
+`.home-screen__campaign-frame` (`overflow:hidden`, alto fijo ~218px) +
+`<img>` con `top:-80px` recortan esa transparencia sin tocar el archivo
+(prohibido modificar assets), recuperando espacio vertical para el resto
+de la composición.
+
+### Timeline de entrada actualizado
+
+Mismo patrón de Fase 2 (fade + overshoot controlado), orden real:
+fondo → personas → marco → botella → badge → logo → eslogan → título →
+descripción → botón → footer. El badge entra con `scale .9→1`, `y -10→0`,
+0.4s, justo después de la botella y antes del logo.
+
+### Motion ambiental actualizado
+
+Igual que Fase 2 (botella flotando, botón respirando) más un pulso de luz
+muy lento en el marco de neón: una custom property CSS
+(`--frame-glow: 0→1`) anima el blur/spread del `box-shadow` del marco,
+4.5s, `sine.inOut`, yoyo — mismo mecanismo que la iluminación del copy de
+campaña en Instructions (ver esa sección).
 
 ## Fase 3 — Instructions (implementado)
 

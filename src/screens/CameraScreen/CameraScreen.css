@@ -26,6 +26,10 @@
   gap: 10px;
 }
 
+.camera-screen__logo {
+  width: 220px;
+}
+
 .camera-screen__subtitle {
   margin: 0;
   font-family: var(--font-brand);

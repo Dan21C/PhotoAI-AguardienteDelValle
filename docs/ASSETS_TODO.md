@@ -7,9 +7,10 @@ placeholders (gradientes, bloques de imagen, frames vacíos).
 
 ## Marca
 
-- [ ] Logo Aguardiente Blanco del Valle oficial
-- [ ] Logo Fiesta
-- [ ] Botella Fiesta PNG transparente
+- [x] Logo Aguardiente Blanco del Valle + Fiesta — `public/assets/brand/logo-fiesta.png`
+      (`assets.brand.logoFiesta`, usado por `BrandLogo`)
+- [x] Botella Fiesta PNG transparente (con agave/hielo) — `public/assets/bottle/fiesta.png`
+      (`assets.bottle.fiesta`, usado por `BrandBottle`)
 - [ ] Wordmark / tipografía de marca en imagen (si aplica)
 - [ ] Fuente oficial **Sink** (agregar como asset de fuente real; hasta
       entonces se usa `font-family: "Sink", Impact, sans-serif` como fallback
@@ -19,11 +20,17 @@ placeholders (gradientes, bloques de imagen, frames vacíos).
 
 ## Fondos y decoración
 
-- [ ] Background Fiesta azul (Home)
+- [x] Background Home (calle de Cali, Fiesta) — `public/assets/home/background.png`
+      (`assets.home.background`)
+- [x] Capa de personas/multitud para Home — `public/assets/home/crowd.png`
+      (`assets.home.crowd`)
+- [x] Gráfico "EL SABOR que nos une ¡VA CON TODO!" (lockup de campaña) —
+      `public/assets/home/campaign-lockup.png` (`assets.home.campaignLockup`)
 - [ ] Background azul para pantalla QR
 - [ ] Pattern de marca azul
-- [ ] Follaje/vegetación izquierda
-- [ ] Follaje/vegetación derecha
+- [ ] Follaje/vegetación para otras pantallas (Instructions, etc. — Home ya
+      no las necesita: la fotografía de fondo + la capa de personas cubren
+      ese rol ahí)
 
 ## Locaciones (Cali)
 

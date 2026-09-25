@@ -10,9 +10,14 @@ export const COPY = {
   handle: "@aguardientedelvalle",
 
   home: {
-    headline: "VIVE CALI EN UNA FOTO ÚNICA",
-    description: ["Nuestra cultura.", "Nuestros sabores.", "Nuestras historias."],
+    badge: { number: "1", label: "BIENVENIDA" },
+    logoAlt: "Aguardiente Blanco del Valle Fiesta",
+    campaignAlt: "EL SABOR que nos une ¡VA CON TODO!",
+    bottleAlt: "Botella de Aguardiente Blanco del Valle Fiesta",
+    headline: ["VIVE CALI", "EN UNA FOTO ÚNICA"],
+    description: ["Nuestra cultura. Nuestros sabores.", "Nuestras historias."],
     cta: "INICIAR",
+    taglines: ["BUEN SABOR", "BUENAS HISTORIAS", "LA MISMA GENTE"],
   },
 
   instructions: {

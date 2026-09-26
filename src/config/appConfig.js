@@ -12,12 +12,15 @@ export const SCREENS = {
   THANK_YOU: "THANK_YOU",
 };
 
-// Formato base de la aplicación: SIEMPRE horizontal 16:9 (tablet landscape).
-// La fotografía final es lo único que puede exportarse en otras proporciones.
+// Formato base de la aplicación: SIEMPRE horizontal (tablet landscape),
+// diseñado 1:1 para la tablet real del evento (1280×800, 8:5). TabletStage
+// sigue escalando proporcionalmente sin deformar en cualquier otra
+// resolución. La fotografía final es lo único que puede exportarse en
+// otras proporciones (no depende de STAGE).
 export const STAGE = {
-  WIDTH: 1920,
-  HEIGHT: 1080,
-  ASPECT_RATIO: 16 / 9,
+  WIDTH: 1280,
+  HEIGHT: 800,
+  ASPECT_RATIO: 8 / 5,
 };
 
 // Formatos de exportación disponibles para la FOTO final (no para la app).
@@ -46,11 +49,14 @@ export const CAMERA_CONFIG = {
   jpegQuality: 0.92,
   mirrorPreview: true,
   mirrorCapture: false,
+  // Resolución IDEAL de captura de foto: independiente de STAGE (el tamaño
+  // de la UI en pantalla). La foto debe salir a la mayor calidad razonable
+  // sin importar qué tan grande/chico se vea el stage en la tablet.
   constraints: {
     video: {
       facingMode: "user",
-      width: { ideal: STAGE.WIDTH },
-      height: { ideal: STAGE.HEIGHT },
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
     },
     audio: false,
   },

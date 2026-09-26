@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 44px 0 40px;
+  padding: 29.3px 0 26.7px;
 }
 
 .camera-screen__background {
@@ -23,27 +23,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .camera-screen__logo {
-  width: 190px;
+  width: 126.7px;
 }
 
 .camera-screen__badge {
-  width: 340px;
+  width: 226.7px;
+  height: auto;
+  margin-top: 2.7px;
+}
+
+.camera-screen__title {
+  width: 146.7px;
   height: auto;
   margin-top: 4px;
 }
 
-.camera-screen__title {
-  width: 220px;
-  height: auto;
-  margin-top: 6px;
-}
-
 .camera-screen__subtitle {
-  width: 300px;
+  width: 200px;
   height: auto;
 }
 
@@ -62,14 +62,14 @@
   position: relative;
   width: 70%;
   height: 78%;
-  border-radius: 28px;
+  border-radius: 18.7px;
   overflow: hidden;
   background: rgba(5, 11, 46, 0.6);
-  border: 2px solid rgba(120, 170, 255, 0.9);
+  border: 1.3px solid rgba(120, 170, 255, 0.9);
   box-shadow:
-    0 0 30px 4px var(--color-fiesta-glow),
-    0 30px 70px rgba(2, 6, 23, 0.5),
-    inset 0 0 30px 2px rgba(91, 141, 255, 0.35);
+    0 0 20px 2.7px var(--color-fiesta-glow),
+    0 20px 46.7px rgba(2, 6, 23, 0.5),
+    inset 0 0 20px 1.3px rgba(91, 141, 255, 0.35);
 }
 
 .camera-screen__video {
@@ -92,8 +92,8 @@
 
 .camera-screen__guide-corner {
   position: absolute;
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   border-color: var(--color-white);
   border-style: solid;
   border-width: 0;
@@ -103,33 +103,33 @@
 .camera-screen__guide-corner--tl {
   top: 0;
   left: 0;
-  border-top-width: 3px;
-  border-left-width: 3px;
-  border-radius: 8px 0 0 0;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-radius: 5.3px 0 0 0;
 }
 
 .camera-screen__guide-corner--tr {
   top: 0;
   right: 0;
-  border-top-width: 3px;
-  border-right-width: 3px;
-  border-radius: 0 8px 0 0;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-radius: 0 5.3px 0 0;
 }
 
 .camera-screen__guide-corner--bl {
   bottom: 0;
   left: 0;
-  border-bottom-width: 3px;
-  border-left-width: 3px;
-  border-radius: 0 0 0 8px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  border-radius: 0 0 0 5.3px;
 }
 
 .camera-screen__guide-corner--br {
   bottom: 0;
   right: 0;
-  border-bottom-width: 3px;
-  border-right-width: 3px;
-  border-radius: 0 0 8px 0;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-radius: 0 0 5.3px 0;
 }
 
 .camera-screen__status {
@@ -139,8 +139,8 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-brand);
-  font-size: 24px;
-  letter-spacing: 2px;
+  font-size: 16px;
+  letter-spacing: 1.3px;
   color: var(--color-text-muted);
   background: rgba(2, 6, 23, 0.35);
 }
@@ -152,9 +152,9 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-brand);
-  font-size: 220px;
+  font-size: 146.7px;
   color: var(--color-white);
-  text-shadow: 0 0 60px var(--color-fiesta-glow);
+  text-shadow: 0 0 40px var(--color-fiesta-glow);
   pointer-events: none;
 }
 
@@ -173,22 +173,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 6.7px;
   text-align: center;
-  padding: 0 48px;
+  padding: 0 32px;
 }
 
 .camera-screen__error-title {
   margin: 0;
   font-family: var(--font-brand);
-  font-size: 30px;
+  font-size: 20px;
   letter-spacing: 1px;
   color: var(--color-white);
 }
 
 .camera-screen__error-hint {
   margin: 0;
-  font-size: 18px;
+  font-size: 12px;
   color: var(--color-text-muted);
 }
 
@@ -198,5 +198,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 28px;
+  padding-top: 18.7px;
 }

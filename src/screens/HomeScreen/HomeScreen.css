@@ -41,21 +41,21 @@
 
 .home-screen__frame {
   position: absolute;
-  inset: 20px;
+  inset: 13.3px;
   z-index: 4;
   --frame-glow: 0;
-  border-radius: 32px;
-  border: 2px solid rgba(120, 170, 255, 0.9);
+  border-radius: 21.3px;
+  border: 1.3px solid rgba(120, 170, 255, 0.9);
   box-shadow:
-    0 0 calc(30px + var(--frame-glow) * 20px) calc(4px + var(--frame-glow) * 4px) var(--color-fiesta-glow),
-    inset 0 0 30px 2px rgba(91, 141, 255, 0.45);
+    0 0 calc(20px + var(--frame-glow) * 13.3px) calc(2.7px + var(--frame-glow) * 2.7px) var(--color-fiesta-glow),
+    inset 0 0 20px 1.3px rgba(91, 141, 255, 0.45);
   pointer-events: none;
 }
 
 .home-screen__bottle-wrapper {
   position: absolute;
   z-index: 5;
-  right: 30px;
+  right: 20px;
   bottom: 0;
   display: flex;
   align-items: flex-end;
@@ -65,7 +65,7 @@
 .home-screen__bottle-wrapper .brand-bottle {
   width: auto;
   height: 100%;
-  max-width: 640px;
+  max-width: 426.7px;
 }
 
 .home-screen__content {
@@ -77,8 +77,8 @@
 
 .home-screen__badge {
   position: absolute;
-  left: 70px;
-  top: 54px;
+  left: 46.7px;
+  top: 36px;
   display: flex;
   align-items: center;
 }
@@ -87,48 +87,48 @@
   position: relative;
   z-index: 1;
   flex: none;
-  width: 40px;
-  height: 40px;
+  width: 26.7px;
+  height: 26.7px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-brand);
-  font-size: 20px;
+  font-size: 13.3px;
   color: var(--color-white);
   background: var(--color-fiesta-blue-300);
-  box-shadow: 0 0 16px var(--color-fiesta-glow);
+  box-shadow: 0 0 10.7px var(--color-fiesta-glow);
 }
 
 .home-screen__badge-label {
-  margin-left: -16px;
-  padding: 9px 22px 9px 28px;
+  margin-left: -10.7px;
+  padding: 6px 14.7px 6px 18.7px;
   border-radius: 999px;
   border: 1px solid rgba(120, 170, 255, 0.8);
   background: rgba(10, 21, 80, 0.85);
-  box-shadow: 0 0 16px var(--color-fiesta-glow);
-  font-size: 15px;
+  box-shadow: 0 0 10.7px var(--color-fiesta-glow);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.3px;
   text-transform: uppercase;
   color: var(--color-white);
 }
 
 .home-screen__copy {
   position: absolute;
-  left: 70px;
-  top: 122px;
-  width: 520px;
+  left: 46.7px;
+  top: 81.3px;
+  width: 346.7px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 9.3px;
   text-align: center;
 }
 
 .home-screen__logo {
-  width: 300px;
-  margin-bottom: -4px;
+  width: 200px;
+  margin-bottom: -2.7px;
 }
 
 /* El lienzo de campaign-lockup.png (1122x1402) tiene relleno transparente
@@ -137,16 +137,16 @@
    desperdiciar espacio vertical del layout. */
 .home-screen__campaign-frame {
   position: relative;
-  width: 300px;
-  height: 218px;
+  width: 200px;
+  height: 145.3px;
   overflow: hidden;
 }
 
 .home-screen__campaign {
   position: absolute;
-  top: -80px;
+  top: -53.3px;
   left: 0;
-  width: 300px;
+  width: 200px;
   height: auto;
 }
 
@@ -158,39 +158,39 @@
 
 .home-screen__headline-primary {
   font-family: var(--font-brand);
-  font-size: 66px;
+  font-size: 44px;
   line-height: 1;
   letter-spacing: 1px;
   color: var(--color-white);
-  text-shadow: 0 0 30px var(--color-fiesta-glow);
+  text-shadow: 0 0 20px var(--color-fiesta-glow);
 }
 
 .home-screen__headline-secondary {
-  margin-top: 2px;
+  margin-top: 1.3px;
   font-family: var(--font-brand);
-  font-size: 42px;
+  font-size: 28px;
   line-height: 1.05;
   letter-spacing: 1px;
   color: var(--color-white);
-  text-shadow: 0 0 24px var(--color-fiesta-glow);
+  text-shadow: 0 0 16px var(--color-fiesta-glow);
 }
 
 .home-screen__description {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  font-size: 24px;
+  gap: 1.3px;
+  font-size: 16px;
   line-height: 1.35;
   color: var(--color-white);
 }
 
 .home-screen__cta {
-  margin-top: 8px;
+  margin-top: 5.3px;
 }
 
 .home-screen__cta-chevron {
-  margin-left: 12px;
+  margin-left: 8px;
   font-family: var(--font-brand);
 }
 
@@ -199,22 +199,22 @@
   z-index: 12;
   left: 0;
   right: 0;
-  bottom: 34px;
+  bottom: 22.7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 9.3px;
 }
 
 .home-screen__tagline {
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-size: 10.7px;
+  letter-spacing: 1.3px;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .home-screen__tagline:not(:last-child)::after {
   content: "•";
-  margin-left: 14px;
+  margin-left: 9.3px;
   color: var(--color-fiesta-blue-300);
 }

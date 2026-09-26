@@ -3,8 +3,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 64px;
-  padding: 0 56px;
+  min-height: 42.7px;
+  padding: 0 37.3px;
   border: none;
   border-radius: 999px;
   background: linear-gradient(
@@ -14,19 +14,19 @@
   );
   color: var(--color-white);
   font-family: var(--font-brand);
-  font-size: 30px;
-  letter-spacing: 2px;
+  font-size: 20px;
+  letter-spacing: 1.3px;
   isolation: isolate;
   touch-action: manipulation;
 }
 
 .animated-button__glow {
   position: absolute;
-  inset: -16px;
+  inset: -10.7px;
   z-index: -1;
   border-radius: inherit;
   background: var(--color-fiesta-glow);
-  filter: blur(24px);
+  filter: blur(16px);
   opacity: 0.55;
 }
 

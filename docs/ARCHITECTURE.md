@@ -10,13 +10,22 @@
 
 ## Formato de la aplicación
 
-La aplicación es **siempre horizontal 16:9** (tablet landscape), base de
-diseño 1920×1080. El componente `TabletStage`
-(`src/components/TabletStage/TabletStage.jsx`) mantiene esa composición sin
-importar la resolución real del dispositivo:
+La aplicación es **siempre horizontal** (tablet landscape), diseñada 1:1
+para la tablet real del evento: **1280×800 (8:5)**. Este valor reemplaza el
+1920×1080/16:9 usado hasta la corrección post-Fase 4 — se cambió porque la
+tablet física del evento tiene exactamente esa resolución/proporción, no
+16:9 (ver `STAGE` en `src/config/appConfig.js`). Todos los layouts
+(Home/Instructions/Camera/PhotoReview) fueron reescalados ×2/3
+(1280/1920) desde sus valores en px originales para conservar las mismas
+proporciones relativas ya aprobadas.
 
-- Escala proporcionalmente (`min(anchoDisponible/1920, altoDisponible/1080)`)
-  usando `transform: scale()`, sin deformar el contenido.
+El componente `TabletStage` (`src/components/TabletStage/TabletStage.jsx`)
+mantiene esa composición sin importar la resolución real del dispositivo:
+
+- Escala proporcionalmente (`min(anchoDisponible/STAGE.WIDTH, altoDisponible/STAGE.HEIGHT)`)
+  usando `transform: scale()`, sin deformar el contenido. En una tablet con
+  otra proporción (p. ej. 16:9), se ve con letterbox (barras) en los lados,
+  nunca deformado.
 - Se recalcula con `ResizeObserver` (con cleanup al desmontar).
 - El wrapper exterior ocupa `100vw`/`100svh` con `overflow: hidden`, evitando
   scroll y elementos fuera de pantalla.

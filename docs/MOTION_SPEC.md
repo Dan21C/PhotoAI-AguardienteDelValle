@@ -374,6 +374,35 @@ CONTENIDO de cada capa:
 - `CaptureButton` se mantuvo como componente interactivo (no se reemplazó
   por `camera/shutter-reference.png`), solo como referencia de estilo.
 
+## Cambio de lienzo base: 1920×1080 → 1280×800
+
+La tablet real del evento es 1280×800 (8:5), no 16:9. Se actualizó
+`STAGE.WIDTH/HEIGHT` en `src/config/appConfig.js` y se reescalaron por
+código (×2/3, ya que 1280/1920 = 2/3) **todos** los valores en `px` de las
+hojas de estilo tuneadas a mano para el canvas anterior: `HomeScreen.css`,
+`InstructionsScreen.css`, `CameraScreen.css`, `PhotoReviewScreen.css`,
+`BrandLogo.css`, `BrandBottle.css`, `AnimatedButton.css`,
+`CaptureButton.css`. Los timelines de GSAP (duraciones, delays, stagger)
+NO se tocaron — están en segundos/porcentajes, no en píxeles, así que
+siguen sin cambios.
+
+Dos valores `999px` (radio de borde usado como "siempre-un-óvalo/cápsula",
+en `AnimatedButton` y el badge de Home) se habían escalado a `666px` junto
+con todo lo demás; se revirtieron a `999px` a mano porque ese número es un
+centinela ("más grande que cualquier mitad de alto real"), no una medida
+compositiva — escalarlo no tenía sentido y no cambia el resultado visual,
+pero se corrigió para que el valor en el código siga siendo legible.
+
+`CAMERA_CONFIG.constraints` (resolución ideal de captura de foto) se
+desacopló de `STAGE`: antes coincidía por conveniencia con el tamaño de la
+UI (1920×1080), pero la calidad de la FOTO capturada no debe bajar solo
+porque el canvas de la UI se hizo más chico. Ahora está fija en
+`{ width: 1920, height: 1080 }` independientemente de `STAGE`.
+
+Verificado con Playwright: sin scroll ni errores en 1280×800 (nativo,
+llena la tablet exacto, sin letterbox) y en 1920×1080/1366×768
+(letterbox correcto, sin deformar) para las 4 pantallas construidas.
+
 ## Fases siguientes
 
 Se documentarán aquí `MOTION_SPEC` para Location Selection, Processing,

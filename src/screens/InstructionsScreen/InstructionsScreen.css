@@ -54,8 +54,8 @@
 
 .instructions-screen__foliage-corner {
   position: absolute;
-  bottom: -20px;
-  left: -20px;
+  bottom: -13.3px;
+  left: -13.3px;
   width: 22%;
   height: auto;
   z-index: 6;
@@ -87,14 +87,14 @@
   bottom: 0;
   height: 82%;
   width: auto;
-  filter: drop-shadow(0 20px 40px rgba(2, 6, 23, 0.6));
+  filter: drop-shadow(0 13.3px 26.7px rgba(2, 6, 23, 0.6));
 }
 
 .instructions-screen__campaign {
   position: absolute;
   z-index: 7;
-  left: 56px;
-  top: 40px;
+  left: 37.3px;
+  top: 26.7px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -103,11 +103,11 @@
 .instructions-screen__campaign p {
   margin: 0;
   font-family: var(--font-brand);
-  font-size: 22px;
+  font-size: 14.7px;
   line-height: 1.1;
   letter-spacing: 1px;
   color: var(--color-white);
-  text-shadow: 0 0 16px var(--color-fiesta-glow);
+  text-shadow: 0 0 10.7px var(--color-fiesta-glow);
 }
 
 .instructions-screen__content {
@@ -118,33 +118,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 36px 0 26px;
-  gap: 14px;
+  padding: 24px 0 17.3px;
+  gap: 9.3px;
 }
 
 .instructions-screen__header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .instructions-screen__logo {
-  width: 210px;
+  width: 140px;
 }
 
 .instructions-screen__badge {
-  width: 380px;
+  width: 253.3px;
   height: auto;
 }
 
 .instructions-screen__title {
   margin: 0;
-  font-size: 26px;
+  font-size: 17.3px;
   font-weight: 700;
   color: var(--color-white);
   text-align: center;
-  text-shadow: 0 0 16px var(--color-fiesta-glow);
+  text-shadow: 0 0 10.7px var(--color-fiesta-glow);
 }
 
 .instructions-screen__steps {
@@ -156,13 +156,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: 14.7px;
 }
 
 .instructions-screen__step {
   flex: none;
   height: 100%;
-  max-height: 340px;
+  max-height: 226.7px;
   display: flex;
   align-items: center;
 }
@@ -170,12 +170,12 @@
 .instructions-screen__step img {
   height: 100%;
   width: auto;
-  max-width: 230px;
+  max-width: 153.3px;
   object-fit: contain;
 }
 
 .instructions-screen__banner {
-  width: 440px;
+  width: 293.3px;
   height: auto;
 }
 
@@ -190,6 +190,6 @@
 }
 
 .instructions-screen__cta-chevron {
-  margin-left: 12px;
+  margin-left: 8px;
   font-family: var(--font-brand);
 }
